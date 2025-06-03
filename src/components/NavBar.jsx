@@ -9,7 +9,6 @@ const NavBar = () => {
   const handleCloseLoginModal = () => setLoginModalOpen(false);
 
   const utilityLinks = [
-
     { title: "Vacancy", href: "/vacancy" },
     { title: "Login", onClick: handleOpenLoginModal },
     { title: "Contact Us", href: "#contact-us" },
@@ -70,7 +69,7 @@ const NavBar = () => {
             className="bg-white rounded-lg shadow-xl max-w-[380px] w-full overflow-hidden"
           >
             <div className="flex justify-between items-center bg-[#680000] text-white p-4">
-              <h3 className="font-semibold text-lg">Welcome To</h3>
+              <h3 className="font-semibold text-lg">Welcome </h3>
               <button
                 onClick={handleCloseLoginModal}
                 className="text-white hover:text-gray-200 focus:outline-none"

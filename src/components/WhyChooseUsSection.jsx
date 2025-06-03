@@ -55,7 +55,7 @@ const WhyChooseUsSection = () => {
     <section className="py-16 bg-[#ffffff] px-4 md:px-20">
       <div className="container mx-auto px-4">
         <motion.h2
-          className="text-4xl font-bold text-center text-[#34495e] mb-16"
+          className="text-[42px] font-bold text-center text-[#680000] mb-16"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}

@@ -7,7 +7,7 @@ const ContactUsSection = () => {
       <div className="container mx-auto px-4">
         {" "}
         <motion.h2
-          className="text-4xl font-bold text-center mb-16 text-[#34495e]"
+          className="text-[42px] font-bold text-center mb-16 text-[#680000]"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -28,7 +28,7 @@ const ContactUsSection = () => {
             transition={{ duration: 0.3 }}
           >
             <motion.div
-              className="text-[#f39c12] mb-4"
+              className="text-[#680000] mb-4"
               whileHover={{ scale: 1.2, rotate: 5 }}
               transition={{ duration: 0.2 }}
             >
@@ -79,7 +79,7 @@ const ContactUsSection = () => {
             transition={{ duration: 0.3, delay: 0.1 }}
           >
             <motion.div
-              className="text-[#f39c12] mb-4"
+              className="text-[#680000] mb-4"
               whileHover={{ scale: 1.2, rotate: 5 }}
               transition={{ duration: 0.2 }}
             >
@@ -124,7 +124,7 @@ const ContactUsSection = () => {
             transition={{ duration: 0.3, delay: 0.2 }}
           >
             <motion.div
-              className="text-[#f39c12] mb-4"
+              className="text-[#680000] mb-4"
               whileHover={{ scale: 1.2, rotate: 5 }}
               transition={{ duration: 0.2 }}
             >
@@ -169,7 +169,7 @@ const ContactUsSection = () => {
             transition={{ duration: 0.3, delay: 0.3 }}
           >
             <motion.div
-              className="text-[#f39c12] mb-4"
+              className="text-[#680000] mb-4"
               whileHover={{ scale: 1.2, rotate: 5 }}
               transition={{ duration: 0.2 }}
             >
@@ -197,7 +197,7 @@ const ContactUsSection = () => {
             <p className="mt-2 text-gray-600">
               <motion.a
                 href="https://www.sliate.ac.lk"
-                className="text-[#f39c12] hover:underline"
+                className="text-[#680000] hover:underline"
                 whileHover={{ scale: 1.05, textDecoration: "underline" }}
                 transition={{ duration: 0.2 }}
               >

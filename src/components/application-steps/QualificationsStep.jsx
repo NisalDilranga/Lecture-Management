@@ -1,48 +1,50 @@
-import React, { useEffect } from 'react';
-import { FiPlus, FiTrash2 } from 'react-icons/fi';
+import React, { useEffect } from "react";
+import { FiPlus, FiTrash2 } from "react-icons/fi";
 
 const QualificationsStep = ({ formData, updateFormData, setStepValid }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
-    if (name.startsWith('academic')) {
-      const [_, index, field] = name.split('.');
+
+    if (name.startsWith("academic")) {
+      const [_, index, field] = name.split(".");
       const updatedQualifications = [...formData.academicQualifications];
       updatedQualifications[index] = {
         ...updatedQualifications[index],
-        [field]: value
+        [field]: value,
       };
       updateFormData({ academicQualifications: updatedQualifications });
-    } 
-    else if (name.startsWith('professional')) {
-      const [_, index, field] = name.split('.');
+    } else if (name.startsWith("professional")) {
+      const [_, index, field] = name.split(".");
       const updatedQualifications = [...formData.professionalQualifications];
       updatedQualifications[index] = {
         ...updatedQualifications[index],
-        [field]: value
+        [field]: value,
       };
       updateFormData({ professionalQualifications: updatedQualifications });
-    }
-    else {
+    } else {
       updateFormData({ [name]: value });
     }
   };
-  
+
   // Validate form whenever data changes
   useEffect(() => {
-    const isValid = 
+    const isValid =
       // At least one academic qualification should be filled completely
-      formData.academicQualifications.some(q => 
-        q.degree.trim() !== '' && 
-        q.university.trim() !== '' && 
-        q.date.trim() !== ''
+      formData.academicQualifications.some(
+        (q) =>
+          q.degree.trim() !== "" &&
+          q.university.trim() !== "" &&
+          q.date.trim() !== ""
       ) &&
       // At least one professional qualification should be filled completely (optional but if started, should be complete)
-      (
-        formData.professionalQualifications.every(q => 
-          (q.qualification.trim() === '' && q.institute.trim() === '' && q.date.trim() === '') || 
-          (q.qualification.trim() !== '' && q.institute.trim() !== '' && q.date.trim() !== '')
-        )
+      formData.professionalQualifications.every(
+        (q) =>
+          (q.qualification.trim() === "" &&
+            q.institute.trim() === "" &&
+            q.date.trim() === "") ||
+          (q.qualification.trim() !== "" &&
+            q.institute.trim() !== "" &&
+            q.date.trim() !== "")
       );
 
     // Update parent component with validation status
@@ -50,38 +52,48 @@ const QualificationsStep = ({ formData, updateFormData, setStepValid }) => {
       setStepValid(isValid);
     }
   }, [formData, setStepValid]);
-  
+
   const addAcademicQualification = () => {
-    const updatedQualifications = [...formData.academicQualifications, { degree: '', university: '', date: '' }];
+    const updatedQualifications = [
+      ...formData.academicQualifications,
+      { degree: "", university: "", date: "" },
+    ];
     updateFormData({ academicQualifications: updatedQualifications });
   };
 
   const removeAcademicQualification = (index) => {
     if (formData.academicQualifications.length <= 1) return;
-    const updatedQualifications = formData.academicQualifications.filter((_, i) => i !== index);
+    const updatedQualifications = formData.academicQualifications.filter(
+      (_, i) => i !== index
+    );
     updateFormData({ academicQualifications: updatedQualifications });
   };
 
   const addProfessionalQualification = () => {
-    const updatedQualifications = [...formData.professionalQualifications, { qualification: '', institute: '', date: '' }];
+    const updatedQualifications = [
+      ...formData.professionalQualifications,
+      { qualification: "", institute: "", date: "" },
+    ];
     updateFormData({ professionalQualifications: updatedQualifications });
   };
 
   const removeProfessionalQualification = (index) => {
     if (formData.professionalQualifications.length <= 1) return;
-    const updatedQualifications = formData.professionalQualifications.filter((_, i) => i !== index);
+    const updatedQualifications = formData.professionalQualifications.filter(
+      (_, i) => i !== index
+    );
     updateFormData({ professionalQualifications: updatedQualifications });
   };
 
   return (
     <div className="space-y-6">
       <h3 className="text-lg font-medium text-gray-900">Qualifications</h3>
-      
+
       {/* Academic Qualifications */}
       <div className="border p-4 rounded-md bg-gray-50">
         <div className="flex justify-between items-center mb-3">
           <h4 className="font-medium">Academic Qualifications</h4>
-          <button 
+          <button
             type="button"
             onClick={addAcademicQualification}
             className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-[#8B0000] hover:bg-[#a52a2a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8B0000]"
@@ -89,7 +101,7 @@ const QualificationsStep = ({ formData, updateFormData, setStepValid }) => {
             <FiPlus className="mr-1" /> Add Qualification
           </button>
         </div>
-        
+
         <div className="space-y-4">
           {formData.academicQualifications.map((qualification, index) => (
             <div key={index} className="relative  rounded-md bg-white p-3">
@@ -147,12 +159,12 @@ const QualificationsStep = ({ formData, updateFormData, setStepValid }) => {
           ))}
         </div>
       </div>
-      
+
       {/* Professional Qualifications */}
       <div className="border p-4 rounded-md bg-gray-50">
         <div className="flex justify-between items-center mb-3">
           <h4 className="font-medium">Professional Qualifications</h4>
-          <button 
+          <button
             type="button"
             onClick={addProfessionalQualification}
             className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-[#8B0000] hover:bg-[#a52a2a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8B0000]"
@@ -160,7 +172,7 @@ const QualificationsStep = ({ formData, updateFormData, setStepValid }) => {
             <FiPlus className="mr-1" /> Add Qualification
           </button>
         </div>
-        
+
         <div className="space-y-4">
           {formData.professionalQualifications.map((qualification, index) => (
             <div key={index} className="relative  rounded-md bg-white p-3">
@@ -218,7 +230,7 @@ const QualificationsStep = ({ formData, updateFormData, setStepValid }) => {
           ))}
         </div>
       </div>
-      
+
       {/* Other Qualifications */}
       <div>
         <label className="block text-sm font-medium text-gray-700">

@@ -45,7 +45,10 @@ const GraduationSection = () => {
   }));
 
   return (
-    <section id="about" className="py-16 px-4 md:px-20 relative overflow-hidden bg-[#680000]/5">
+    <section
+      id="about"
+      className="py-16 px-4 md:px-20 relative overflow-hidden bg-[#680000]/5"
+    >
       {/* Background pattern */}
       <div className="absolute inset-0 z-0 opacity-5">
         <svg
@@ -121,7 +124,8 @@ const GraduationSection = () => {
                 Excellence in Education Since 1995
               </p>
             </motion.div>
-          </motion.div>          {/* Right side - Content */}
+          </motion.div>{" "}
+          {/* Right side - Content */}
           <motion.div
             className="flex flex-col space-y-6"
             initial={{ opacity: 0, x: 30 }}
@@ -145,10 +149,11 @@ const GraduationSection = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              Founded in 1995, Aurora University has established itself as a premier 
-              institution dedicated to academic excellence and innovation. Our campus 
-              spans over 50 acres of modern facilities designed to provide students 
-              with an enriching educational experience in a supportive environment.
+              Founded in 1995, Aurora University has established itself as a
+              premier institution dedicated to academic excellence and
+              innovation. Our campus spans over 50 acres of modern facilities
+              designed to provide students with an enriching educational
+              experience in a supportive environment.
             </motion.p>
             <motion.h3
               className="text-2xl font-bold text-[#680000] pt-2"
@@ -166,10 +171,11 @@ const GraduationSection = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              We are committed to fostering critical thinking, creativity, and ethical leadership 
-              through a comprehensive curriculum taught by distinguished faculty. Our core values 
-              of integrity, innovation, inclusivity, and excellence guide everything we do, from 
-              classroom teaching to community engagement and groundbreaking research.
+              We are committed to fostering critical thinking, creativity, and
+              ethical leadership through a comprehensive curriculum taught by
+              distinguished faculty. Our core values of integrity, innovation,
+              inclusivity, and excellence guide everything we do, from classroom
+              teaching to community engagement and groundbreaking research.
             </motion.p>
             {/* Institution Statistics */}
             <motion.div
@@ -189,7 +195,9 @@ const GraduationSection = () => {
                 >
                   30+
                 </motion.span>
-                <span className="text-sm text-gray-600">Years of Excellence</span>
+                <span className="text-sm text-gray-600">
+                  Years of Excellence
+                </span>
               </div>
               <div className="bg-white p-3 rounded-lg shadow text-center">
                 <motion.span

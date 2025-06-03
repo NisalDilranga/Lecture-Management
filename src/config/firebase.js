@@ -9,7 +9,7 @@ const firebaseConfig = {
   storageBucket: "visiting-7727b.firebasestorage.app",
   messagingSenderId: "355201941654",
   appId: "1:355201941654:web:a5fb1e096705214b6fc2b7",
-  measurementId: "G-HVHWN9WVBG"
+  measurementId: "G-HVHWN9WVBG",
 };
 
 console.log("Initializing Firebase app...");
@@ -33,7 +33,7 @@ export const testFirebaseAuth = async () => {
   }
 };
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   console.log("Firebase config loaded in development mode");
   console.log("Firebase project ID:", firebaseConfig.projectId);
 }

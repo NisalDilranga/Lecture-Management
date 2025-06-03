@@ -1,15 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FiUsers, FiFileText, FiCalendar, FiCheckCircle, FiBarChart2, FiTrendingUp } from 'react-icons/fi';
-import { getDashboardStats } from '../services/DashboardServices';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  FiUsers,
+  FiFileText,
+  FiCalendar,
+  FiCheckCircle,
+  FiBarChart2,
+  FiTrendingUp,
+} from "react-icons/fi";
+import { getDashboardStats } from "../services/DashboardServices";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  Legend,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from "recharts";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
     usersCount: 0,
     pendingCount: 0,
     interviewCount: 0,
-    approvedCount: 0
+    approvedCount: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -19,9 +38,8 @@ const Dashboard = () => {
         setLoading(true);
         const statsData = await getDashboardStats();
         setStats(statsData);
-        
       } catch (err) {
-        console.error('Error fetching dashboard stats:', err);
+        console.error("Error fetching dashboard stats:", err);
       } finally {
         setLoading(false);
       }
@@ -33,10 +51,11 @@ const Dashboard = () => {
   return (
     <div className="h-full">
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-gray-800">Admin Dashboard</h1>
+        <h1 className="text-2xl font-semibold text-gray-800">
+          Admin Dashboard
+        </h1>
         <p className="text-gray-600">Overview of system statistics</p>
       </div>
-
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Users Card */}
@@ -52,7 +71,9 @@ const Dashboard = () => {
               {loading ? (
                 <div className="h-8 w-20 bg-gray-200 animate-pulse rounded mt-1"></div>
               ) : (
-                <h3 className="text-2xl font-bold text-gray-800 mt-1">{stats.usersCount}</h3>
+                <h3 className="text-2xl font-bold text-gray-800 mt-1">
+                  {stats.usersCount}
+                </h3>
               )}
             </div>
             <div className="p-3 bg-blue-100 rounded-full">
@@ -70,11 +91,15 @@ const Dashboard = () => {
         >
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm font-medium text-gray-500">Pending Applications</p>
+              <p className="text-sm font-medium text-gray-500">
+                Pending Applications
+              </p>
               {loading ? (
                 <div className="h-8 w-20 bg-gray-200 animate-pulse rounded mt-1"></div>
               ) : (
-                <h3 className="text-2xl font-bold text-gray-800 mt-1">{stats.pendingCount}</h3>
+                <h3 className="text-2xl font-bold text-gray-800 mt-1">
+                  {stats.pendingCount}
+                </h3>
               )}
             </div>
             <div className="p-3 bg-yellow-100 rounded-full">
@@ -92,11 +117,15 @@ const Dashboard = () => {
         >
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm font-medium text-gray-500">Scheduled Interviews</p>
+              <p className="text-sm font-medium text-gray-500">
+                Scheduled Interviews
+              </p>
               {loading ? (
                 <div className="h-8 w-20 bg-gray-200 animate-pulse rounded mt-1"></div>
               ) : (
-                <h3 className="text-2xl font-bold text-gray-800 mt-1">{stats.interviewCount}</h3>
+                <h3 className="text-2xl font-bold text-gray-800 mt-1">
+                  {stats.interviewCount}
+                </h3>
               )}
             </div>
             <div className="p-3 bg-purple-100 rounded-full">
@@ -105,7 +134,7 @@ const Dashboard = () => {
           </div>
         </motion.div>
 
-        {/* Approved Applications Card */}
+  
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -114,11 +143,15 @@ const Dashboard = () => {
         >
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm font-medium text-gray-500">Approved Applications</p>
+              <p className="text-sm font-medium text-gray-500">
+                Approved Applications
+              </p>
               {loading ? (
                 <div className="h-8 w-20 bg-gray-200 animate-pulse rounded mt-1"></div>
               ) : (
-                <h3 className="text-2xl font-bold text-gray-800 mt-1">{stats.approvedCount}</h3>
+                <h3 className="text-2xl font-bold text-gray-800 mt-1">
+                  {stats.approvedCount}
+                </h3>
               )}
             </div>
             <div className="p-3 bg-green-100 rounded-full">
@@ -126,11 +159,14 @@ const Dashboard = () => {
             </div>
           </div>
         </motion.div>
-      </div>      {/* Application Statistics and Trends */}
+      </div>{" "}
+    
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-semibold text-gray-800">Application Statistics</h3>
+            <h3 className="text-lg font-semibold text-gray-800">
+              Application Statistics
+            </h3>
             <FiBarChart2 className="h-5 w-5 text-gray-500" />
           </div>
           {loading ? (
@@ -139,14 +175,15 @@ const Dashboard = () => {
             </div>
           ) : (
             <div className="h-64">
-              {(stats.pendingCount + stats.interviewCount + stats.approvedCount) > 0 ? (
+              {stats.pendingCount + stats.interviewCount + stats.approvedCount >
+              0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={[
-                        { name: 'Pending', value: stats.pendingCount },
-                        { name: 'Interview', value: stats.interviewCount },
-                        { name: 'Approved', value: stats.approvedCount },
+                        { name: "Pending", value: stats.pendingCount },
+                        { name: "Interview", value: stats.interviewCount },
+                        { name: "Approved", value: stats.approvedCount },
                       ]}
                       cx="50%"
                       cy="50%"
@@ -155,15 +192,20 @@ const Dashboard = () => {
                       fill="#8884d8"
                       paddingAngle={5}
                       dataKey="value"
-                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      label={({ name, percent }) =>
+                        `${name}: ${(percent * 100).toFixed(0)}%`
+                      }
                     >
                       <Cell fill="#FCD34D" /> {/* Yellow for Pending */}
                       <Cell fill="#A78BFA" /> {/* Purple for Interview */}
                       <Cell fill="#10B981" /> {/* Green for Approved */}
                     </Pie>
-                    <Tooltip 
-                      formatter={(value, name) => [`${value} Applications`, name]} 
-                      labelFormatter={() => ''} 
+                    <Tooltip
+                      formatter={(value, name) => [
+                        `${value} Applications`,
+                        name,
+                      ]}
+                      labelFormatter={() => ""}
                     />
                     <Legend />
                   </PieChart>
@@ -179,7 +221,9 @@ const Dashboard = () => {
 
         <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-semibold text-gray-800">Application Status Overview</h3>
+            <h3 className="text-lg font-semibold text-gray-800">
+              Application Status Overview
+            </h3>
             <FiTrendingUp className="h-5 w-5 text-gray-500" />
           </div>
           {loading ? (
@@ -188,13 +232,26 @@ const Dashboard = () => {
             </div>
           ) : (
             <div className="h-64">
-              {(stats.pendingCount + stats.interviewCount + stats.approvedCount) > 0 ? (
+              {stats.pendingCount + stats.interviewCount + stats.approvedCount >
+              0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={[
-                      { name: 'Pending', value: stats.pendingCount, fill: '#FCD34D' },
-                      { name: 'Interview', value: stats.interviewCount, fill: '#A78BFA' },
-                      { name: 'Approved', value: stats.approvedCount, fill: '#10B981' },
+                      {
+                        name: "Pending",
+                        value: stats.pendingCount,
+                        fill: "#FCD34D",
+                      },
+                      {
+                        name: "Interview",
+                        value: stats.interviewCount,
+                        fill: "#A78BFA",
+                      },
+                      {
+                        name: "Approved",
+                        value: stats.approvedCount,
+                        fill: "#10B981",
+                      },
                     ]}
                     margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                   >
@@ -204,9 +261,9 @@ const Dashboard = () => {
                     <Tooltip formatter={(value) => [`${value} Applications`]} />
                     <Bar dataKey="value">
                       {[
-                        { name: 'Pending', fill: '#FCD34D' },
-                        { name: 'Interview', fill: '#A78BFA' },
-                        { name: 'Approved', fill: '#10B981' },
+                        { name: "Pending", fill: "#FCD34D" },
+                        { name: "Interview", fill: "#A78BFA" },
+                        { name: "Approved", fill: "#10B981" },
                       ].map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.fill} />
                       ))}

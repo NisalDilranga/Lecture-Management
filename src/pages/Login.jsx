@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
-import LoginForm from '../components/LoginForm';
-import ForgotPasswordForm from '../components/ForgotPasswordForm';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import LoginForm from "../components/LoginForm";
+import ForgotPasswordForm from "../components/ForgotPasswordForm";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [showForgotPassword, setShowForgotPassword] = useState(false);
 
-  // If user is already authenticated, redirect to hello page
   React.useEffect(() => {
     if (currentUser) {
-      navigate('/hello');
+      navigate("/hello");
     }
   }, [currentUser, navigate]);
 
@@ -29,10 +28,10 @@ const Login = () => {
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {showForgotPassword ? 'Reset Password' : 'Sign in to your account'}
+            {showForgotPassword ? "Reset Password" : "Sign in to your account"}
           </h2>
         </div>
-        
+
         {showForgotPassword ? (
           <ForgotPasswordForm onBackToLogin={handleBackToLogin} />
         ) : (
@@ -41,6 +40,6 @@ const Login = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

@@ -1,34 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FiSave, FiX, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
-import { toast } from 'react-toastify';
-import { useAuth } from '../../context/AuthContext';
-import { getAllDepartments } from '../../services/DepartmentServices';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { FiSave, FiX, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
+import { getAllDepartments } from "../../services/DepartmentServices";
 
 const EditUser = ({ user, onClose, onUserUpdated }) => {
   const { updateUser } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  const [subjects, setSubjects] = useState([{ name: '' }]);
+  const [subjects, setSubjects] = useState([{ name: "" }]);
   const [departments, setDepartments] = useState([]);
-  const [selectedDepartment, setSelectedDepartment] = useState(user?.department || '');
+  const [selectedDepartment, setSelectedDepartment] = useState(
+    user?.department || ""
+  );
   const [departmentSubjects, setDepartmentSubjects] = useState([]);
   const [userData, setUserData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
-    role: user?.role || 'Admin',
-    hourlyRate: user?.hourlyRate || '',
-    department: user?.department || '',
-    departmentName: user?.departmentName || ''
+    name: user?.name || "",
+    email: user?.email || "",
+    role: user?.role || "Admin",
+    hourlyRate: user?.hourlyRate || "",
+    department: user?.department || "",
+    departmentName: user?.departmentName || "",
   });
 
   // Initialize subjects if user is a lecturer
   useEffect(() => {
     if (user?.subjects?.length > 0) {
-      setSubjects(user.subjects.map(subject => ({ name: subject })));
+      setSubjects(user.subjects.map((subject) => ({ name: subject })));
     }
-    
+
     // Fetch departments
     fetchDepartments();
   }, [user]);
@@ -37,10 +39,12 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
     try {
       const departmentsList = await getAllDepartments();
       setDepartments(departmentsList);
-      
+
       // If user has a department, get the subjects for that department
       if (user?.department) {
-        const userDept = departmentsList.find(dept => dept.id === user.department);
+        const userDept = departmentsList.find(
+          (dept) => dept.id === user.department
+        );
         if (userDept && userDept.subjects) {
           setDepartmentSubjects(userDept.subjects);
         }
@@ -58,7 +62,7 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
   };
 
   const addSubjectField = () => {
-    setSubjects([...subjects, { name: '' }]);
+    setSubjects([...subjects, { name: "" }]);
   };
 
   const removeSubjectField = (index) => {
@@ -71,16 +75,16 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
     const { name, value } = e.target;
     setUserData({
       ...userData,
-      [name]: value
+      [name]: value,
     });
-    setError(''); // Clear any previous errors when user starts typing
+    setError(""); // Clear any previous errors when user starts typing
   };
 
   const handleHourlyRateChange = (e) => {
     const { value } = e.target;
     setUserData({
       ...userData,
-      hourlyRate: value
+      hourlyRate: value,
     });
   };
 
@@ -89,12 +93,12 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
     setSelectedDepartment(departmentId);
     setUserData({
       ...userData,
-      department: departmentId
+      department: departmentId,
     });
-    
+
     // Find the selected department and get its subjects
     if (departmentId) {
-      const department = departments.find(dept => dept.id === departmentId);
+      const department = departments.find((dept) => dept.id === departmentId);
       if (department && department.subjects) {
         setDepartmentSubjects(department.subjects);
       } else {
@@ -107,9 +111,9 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
 
   const handleSubjectSelection = (selectedSubject) => {
     // Check if subject already exists
-    const exists = subjects.some(subject => subject.name === selectedSubject);
+    const exists = subjects.some((subject) => subject.name === selectedSubject);
     if (!exists) {
-      if (subjects.length === 1 && subjects[0].name === '') {
+      if (subjects.length === 1 && subjects[0].name === "") {
         // Replace the empty subject
         setSubjects([{ name: selectedSubject }]);
       } else {
@@ -121,74 +125,80 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
 
   const validateForm = () => {
     console.log("Validating form with data:", userData);
-    
+
     if (!userData.name || !userData.email || !userData.role) {
       const missingFields = [];
       if (!userData.name) missingFields.push("name");
       if (!userData.email) missingFields.push("email");
       if (!userData.role) missingFields.push("role");
-      
-      const errorMessage = `The following fields are required: ${missingFields.join(", ")}`;
+
+      const errorMessage = `The following fields are required: ${missingFields.join(
+        ", "
+      )}`;
       console.error(errorMessage);
       setError(errorMessage);
       return false;
     }
-    
+
     // Simple email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userData.email)) {
       console.error("Invalid email format:", userData.email);
-      setError('Please enter a valid email address');
+      setError("Please enter a valid email address");
       return false;
     }
-      // Validate subjects and hourly rate for User role
-    if (userData.role === 'User') {
+    // Validate subjects and hourly rate for User role
+    if (userData.role === "User") {
       if (!userData.hourlyRate) {
         console.error("Missing hourly rate for User role");
-        setError('Please enter an hourly rate');
+        setError("Please enter an hourly rate");
         return false;
       }
-      
+
       if (!userData.department) {
         console.error("No department selected for User role");
-        setError('Please select a department');
+        setError("Please select a department");
         return false;
       }
 
       // Filter out any empty subjects
-      const filteredSubjects = subjects.filter(subject => subject.name.trim() !== '');
+      const filteredSubjects = subjects.filter(
+        (subject) => subject.name.trim() !== ""
+      );
       if (filteredSubjects.length === 0) {
         console.error("No subjects provided for User role");
-        setError('Please add at least one subject');
+        setError("Please add at least one subject");
         return false;
       }
     }
-    
+
     console.log("Form validation successful");
     return true;
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-    
+
     setLoading(true);
-    setError('');
+    setError("");
     setSuccess(false);
-    
+
     try {
       const updatedUserData = { ...userData };
       const isEmailChanged = updatedUserData.email !== user.email;
-        // Include subjects only if role is User
-      if (updatedUserData.role === 'User') {
+      // Include subjects only if role is User
+      if (updatedUserData.role === "User") {
         updatedUserData.subjects = subjects
-          .filter(subject => subject.name.trim() !== '')
-          .map(subject => subject.name);
+          .filter((subject) => subject.name.trim() !== "")
+          .map((subject) => subject.name);
 
         // Include department if selected
         if (selectedDepartment) {
           updatedUserData.department = selectedDepartment;
           // Find department name for display
-          const selectedDeptObj = departments.find(dept => dept.id === selectedDepartment);
+          const selectedDeptObj = departments.find(
+            (dept) => dept.id === selectedDepartment
+          );
           if (selectedDeptObj) {
             updatedUserData.departmentName = selectedDeptObj.name;
           }
@@ -200,58 +210,57 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
         delete updatedUserData.department;
         delete updatedUserData.departmentName;
       }
-      
+
       console.log(`Updating user ${user.id} with data:`, updatedUserData);
       console.log("Email changed:", isEmailChanged ? "YES" : "NO");
-      
+
       // Call the update function
       const updatedUser = await updateUser(user.id, updatedUserData);
       console.log("User updated successfully:", updatedUser);
-      
+
       // Check if email update in Auth was required but failed
       if (updatedUser.authEmailUpdateFailed) {
         console.log("Auth email update failed. Manual update needed.");
         toast.warning(
-          'User data updated, but could not update email in authentication system. ' +
-          'The user will need to re-authenticate to fully update their email.'
+          "User data updated, but could not update email in authentication system. " +
+            "The user will need to re-authenticate to fully update their email."
         );
       } else if (isEmailChanged) {
         toast.info(
-          'Email address updated. The user may need to verify their new email address.'
+          "Email address updated. The user may need to verify their new email address."
         );
       }
-      
+
       setSuccess(true);
-      toast.success('User updated successfully');
-      
+      toast.success("User updated successfully");
+
       // Notify parent component
       if (onUserUpdated) {
         onUserUpdated(updatedUser);
       }
-      
+
       // Close after a short delay to show success message
       setTimeout(() => {
         onClose();
       }, 1500);
-      
     } catch (error) {
       console.error("Error updating user:", error);
       setError(`Failed to update user: ${error.message}`);
-      toast.error('Failed to update user');
+      toast.error("Failed to update user");
     } finally {
       setLoading(false);
     }
   };
   return (
     <div className="fixed inset-0 bg-black/80 bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-lg shadow-xl max-w-md w-full my-8"
       >
         <div className="flex justify-between items-center p-4 border-b">
           <h2 className="text-xl font-semibold text-gray-800">Edit User</h2>
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 focus:outline-none"
           >
@@ -259,14 +268,17 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 max-h-[70vh] overflow-y-auto">
+        <form
+          onSubmit={handleSubmit}
+          className="p-6 max-h-[70vh] overflow-y-auto"
+        >
           {error && (
             <div className="mb-4 p-2 bg-red-50 border border-red-200 text-red-700 rounded-md text-sm flex items-center">
               <FiAlertCircle className="mr-2 flex-shrink-0" />
               {error}
             </div>
           )}
-          
+
           {success && (
             <div className="mb-4 p-2 bg-green-50 border border-green-200 text-green-700 rounded-md text-sm flex items-center">
               <FiCheckCircle className="mr-2 flex-shrink-0" />
@@ -275,11 +287,16 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
           )}
 
           <div className="mb-6">
-            <h3 className="text-base font-medium text-gray-900 mb-4">Basic Information</h3>
-            
+            <h3 className="text-base font-medium text-gray-900 mb-4">
+              Basic Information
+            </h3>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Name
                 </label>
                 <input
@@ -292,9 +309,12 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
                   placeholder="Enter name"
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Email
                 </label>
                 <input
@@ -309,10 +329,13 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               <div>
-                <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="role"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Role
                 </label>
                 <select
@@ -328,10 +351,13 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
               </div>
             </div>
           </div>
-            {userData.role === 'User' && (
+          {userData.role === "User" && (
             <>
               <div className="mb-6">
-                <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="department"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Department
                 </label>
                 <select
@@ -350,8 +376,10 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
               </div>
 
               <div className="mb-6">
-                <h3 className="text-base font-medium text-gray-900 mb-4">Subjects</h3>
-                
+                <h3 className="text-base font-medium text-gray-900 mb-4">
+                  Subjects
+                </h3>
+
                 {selectedDepartment && departmentSubjects.length > 0 && (
                   <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -371,19 +399,21 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
                     </div>
                   </div>
                 )}
-                
+
                 {subjects.map((subject, index) => (
                   <div key={index} className="flex items-center mb-2">
                     <input
                       type="text"
                       value={subject.name}
-                      onChange={(e) => handleSubjectChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handleSubjectChange(index, e.target.value)
+                      }
                       className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                       placeholder="Enter subject"
                     />
-                    <button 
-                      type="button" 
-                      onClick={() => removeSubjectField(index)} 
+                    <button
+                      type="button"
+                      onClick={() => removeSubjectField(index)}
                       className="ml-2 text-red-600 hover:text-red-900"
                       disabled={subjects.length === 1}
                     >
@@ -391,9 +421,9 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
                     </button>
                   </div>
                 ))}
-                <button 
-                  type="button" 
-                  onClick={addSubjectField} 
+                <button
+                  type="button"
+                  onClick={addSubjectField}
                   className="flex items-center text-blue-600 hover:text-blue-900"
                 >
                   + Add Subject
@@ -401,7 +431,10 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
               </div>
 
               <div className="mb-6">
-                <label htmlFor="hourlyRate" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="hourlyRate"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Hourly Rate ($)
                 </label>
                 <input
@@ -417,7 +450,7 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
               </div>
             </>
           )}
-          
+
           <div className="flex justify-center">
             <button
               type="submit"
@@ -426,14 +459,30 @@ const EditUser = ({ user, onClose, onUserUpdated }) => {
             >
               {loading ? (
                 <span className="flex justify-center items-center">
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    ></path>
                   </svg>
                   Updating...
                 </span>
               ) : (
-                'Update'
+                "Update"
               )}
             </button>
           </div>

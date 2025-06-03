@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { toast } from 'react-toastify';
-import { getUserTimetable } from '../services/TimetableServices';
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
+import { getUserTimetable } from "../services/TimetableServices";
+import { useAuth } from "../context/AuthContext";
 
 const UserTimetable = () => {
   const { currentUser } = useAuth();
@@ -34,26 +34,25 @@ const UserTimetable = () => {
     fetchTimetable();
   }, [currentUser]);
 
-  // Function to filter timetable data to only show entries with actual data
   const getFilteredTimetableData = () => {
     if (!timetable) return [];
-    
+
     return timetable.timetableData
-      // Filter days to only include those with at least one period that has data
-      .map(day => ({
+
+      .map((day) => ({
         ...day,
-        periods: day.periods.filter(period => period.subject || period.room)
+        periods: day.periods.filter((period) => period.subject || period.room),
       }))
-      // Only keep days that have at least one period with data
-      .filter(day => day.periods.length > 0);
+
+      .filter((day) => day.periods.length > 0);
   };
 
   const handlePrintTimetable = () => {
     const originalContents = document.body.innerHTML;
     const printContents = printRef.current.innerHTML;
-    
+
     // Create a new window with just the timetable content
-    const printWindow = window.open('', '_blank');
+    const printWindow = window.open("", "_blank");
     printWindow.document.write(`
       <html>
         <head>
@@ -86,7 +85,7 @@ const UserTimetable = () => {
         </body>
       </html>
     `);
-    
+
     printWindow.document.close();
   };
 
@@ -107,12 +106,23 @@ const UserTimetable = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">My Timetable</h1>
         {timetable && hasData && (
-          <button 
+          <button
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center"
             onClick={handlePrintTimetable}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+              />
             </svg>
             Print Timetable
           </button>
@@ -123,13 +133,23 @@ const UserTimetable = () => {
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
           <div className="flex">
             <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              <svg
+                className="h-5 w-5 text-yellow-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             <div className="ml-3">
               <p className="text-sm text-yellow-700">
-                No timetable has been assigned to you yet. Please contact an administrator.
+                No timetable has been assigned to you yet. Please contact an
+                administrator.
               </p>
             </div>
           </div>
@@ -138,13 +158,23 @@ const UserTimetable = () => {
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
           <div className="flex">
             <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              <svg
+                className="h-5 w-5 text-yellow-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             <div className="ml-3">
               <p className="text-sm text-yellow-700">
-                Your timetable is empty. No subjects or rooms have been assigned yet.
+                Your timetable is empty. No subjects or rooms have been assigned
+                yet.
               </p>
             </div>
           </div>
@@ -167,7 +197,10 @@ const UserTimetable = () => {
                     {day.periods.map((period, periodIndex) => (
                       <tr key={`${day.day}-${period.time}`}>
                         {periodIndex === 0 && (
-                          <td rowSpan={day.periods.length} className="py-2 px-4 border-b font-medium">
+                          <td
+                            rowSpan={day.periods.length}
+                            className="py-2 px-4 border-b font-medium"
+                          >
                             {day.day}
                           </td>
                         )}

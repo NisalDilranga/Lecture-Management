@@ -1,33 +1,28 @@
-import { 
-  collection, 
-  addDoc, 
-  getDocs, 
-  doc, 
-  deleteDoc, 
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  deleteDoc,
   setDoc,
   query,
   where,
   updateDoc,
   arrayUnion,
-  arrayRemove
+  arrayRemove,
 } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 const DEPARTMENTS_COLLECTION = "departments";
 
-/**
- * Adds a new department to the database
- * @param {string} departmentName - The name of the department
- * @returns {Promise<string>} - The ID of the newly created department
- */
 export const addDepartment = async (departmentName) => {
   try {
     const departmentRef = await addDoc(collection(db, DEPARTMENTS_COLLECTION), {
       name: departmentName,
       subjects: [],
-      createdAt: new Date()
+      createdAt: new Date(),
     });
-    
+
     return departmentRef.id;
   } catch (error) {
     console.error("Error adding department:", error);
@@ -35,16 +30,14 @@ export const addDepartment = async (departmentName) => {
   }
 };
 
-/**
- * Gets all departments from the database
- * @returns {Promise<Array>} - Array of department documents
- */
 export const getAllDepartments = async () => {
   try {
-    const departmentsSnapshot = await getDocs(collection(db, DEPARTMENTS_COLLECTION));
-    return departmentsSnapshot.docs.map(doc => ({
+    const departmentsSnapshot = await getDocs(
+      collection(db, DEPARTMENTS_COLLECTION)
+    );
+    return departmentsSnapshot.docs.map((doc) => ({
       id: doc.id,
-      ...doc.data()
+      ...doc.data(),
     }));
   } catch (error) {
     console.error("Error getting departments:", error);
@@ -52,11 +45,6 @@ export const getAllDepartments = async () => {
   }
 };
 
-/**
- * Deletes a department from the database
- * @param {string} departmentId - The ID of the department to delete
- * @returns {Promise<void>}
- */
 export const deleteDepartment = async (departmentId) => {
   try {
     await deleteDoc(doc(db, DEPARTMENTS_COLLECTION, departmentId));
@@ -66,17 +54,11 @@ export const deleteDepartment = async (departmentId) => {
   }
 };
 
-/**
- * Adds a subject to a department
- * @param {string} departmentId - The ID of the department
- * @param {string} subjectName - The name of the subject
- * @returns {Promise<void>}
- */
 export const addSubjectToDepartment = async (departmentId, subjectName) => {
   try {
     const departmentRef = doc(db, DEPARTMENTS_COLLECTION, departmentId);
     await updateDoc(departmentRef, {
-      subjects: arrayUnion(subjectName)
+      subjects: arrayUnion(subjectName),
     });
   } catch (error) {
     console.error("Error adding subject to department:", error);
@@ -84,17 +66,14 @@ export const addSubjectToDepartment = async (departmentId, subjectName) => {
   }
 };
 
-/**
- * Removes a subject from a department
- * @param {string} departmentId - The ID of the department
- * @param {string} subjectName - The name of the subject to remove
- * @returns {Promise<void>}
- */
-export const removeSubjectFromDepartment = async (departmentId, subjectName) => {
+export const removeSubjectFromDepartment = async (
+  departmentId,
+  subjectName
+) => {
   try {
     const departmentRef = doc(db, DEPARTMENTS_COLLECTION, departmentId);
     await updateDoc(departmentRef, {
-      subjects: arrayRemove(subjectName)
+      subjects: arrayRemove(subjectName),
     });
   } catch (error) {
     console.error("Error removing subject from department:", error);
@@ -102,17 +81,11 @@ export const removeSubjectFromDepartment = async (departmentId, subjectName) => 
   }
 };
 
-/**
- * Updates a department's name
- * @param {string} departmentId - The ID of the department
- * @param {string} newName - The new name for the department
- * @returns {Promise<void>}
- */
 export const updateDepartmentName = async (departmentId, newName) => {
   try {
     const departmentRef = doc(db, DEPARTMENTS_COLLECTION, departmentId);
     await updateDoc(departmentRef, {
-      name: newName
+      name: newName,
     });
   } catch (error) {
     console.error("Error updating department name:", error);

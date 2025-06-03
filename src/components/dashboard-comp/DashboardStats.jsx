@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FiUsers, FiFileText, FiCalendar, FiCheckCircle } from 'react-icons/fi';
-import { getDashboardStats } from '../../services/DashboardServices';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { FiUsers, FiFileText, FiCalendar, FiCheckCircle } from "react-icons/fi";
+import { getDashboardStats } from "../../services/DashboardServices";
 
 const DashboardStats = () => {
   const [stats, setStats] = useState({
     usersCount: 0,
     pendingCount: 0,
     interviewCount: 0,
-    approvedCount: 0
+    approvedCount: 0,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,8 +21,8 @@ const DashboardStats = () => {
         setStats(statsData);
         setError(null);
       } catch (err) {
-        console.error('Error fetching dashboard stats:', err);
-        setError('Failed to load statistics');
+        console.error("Error fetching dashboard stats:", err);
+        setError("Failed to load statistics");
       } finally {
         setLoading(false);
       }
@@ -59,8 +59,10 @@ const DashboardStats = () => {
       transition={{ duration: 0.3 }}
       className="px-4 py-3 bg-gray-700 rounded-lg my-4"
     >
-      <h3 className="text-sm font-medium text-gray-300 mb-3 border-b border-gray-600 pb-2">Dashboard Stats</h3>
-      
+      <h3 className="text-sm font-medium text-gray-300 mb-3 border-b border-gray-600 pb-2">
+        Dashboard Stats
+      </h3>
+
       <div className="space-y-2.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
@@ -71,7 +73,7 @@ const DashboardStats = () => {
             {stats.usersCount}
           </span>
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <FiFileText className="text-yellow-400 mr-2" />
@@ -81,7 +83,7 @@ const DashboardStats = () => {
             {stats.pendingCount}
           </span>
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <FiCalendar className="text-purple-400 mr-2" />
@@ -91,7 +93,7 @@ const DashboardStats = () => {
             {stats.interviewCount}
           </span>
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <FiCheckCircle className="text-green-400 mr-2" />
