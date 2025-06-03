@@ -9,11 +9,11 @@ const NavBar = () => {
   const handleCloseLoginModal = () => setLoginModalOpen(false);
 
   const utilityLinks = [
-    { title: "Directory", href: "/directory" },
-    { title: "Webmail", href: "/webmail" },
+
+    { title: "Vacancy", href: "/vacancy" },
     { title: "Login", onClick: handleOpenLoginModal },
-    { title: "Contact Us", href: "/emergency" },
-    { title: "About Us", href: "/about" },
+    { title: "Contact Us", href: "#contact-us" },
+    { title: "About Us", href: "#about" },
   ];
   return (
     <>

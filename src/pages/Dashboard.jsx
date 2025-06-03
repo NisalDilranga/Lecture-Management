@@ -19,6 +19,7 @@ const Dashboard = () => {
         setLoading(true);
         const statsData = await getDashboardStats();
         setStats(statsData);
+        
       } catch (err) {
         console.error('Error fetching dashboard stats:', err);
       } finally {

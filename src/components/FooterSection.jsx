@@ -27,7 +27,7 @@ const FooterSection = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-gray-400 mb-4"
             >
-              Empowering minds through innovative education and research excellence.
+             Empowering Higher Education in Sri Lanka. 
             </motion.p>
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -95,15 +95,15 @@ const FooterSection = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <FaMapMarkerAlt className="mt-1 mr-3 text-[#A52A2A]" />
-                <span className="text-gray-400">123 University Ave, Aurora City, AC 10001</span>
+                <span className="text-gray-400"> Colombo 10, Sri Lanka</span>
               </li>
               <li className="flex items-center">
                 <FaPhone className="mr-3 text-[#A52A2A]" />
-                <span className="text-gray-400">+1 (555) 123-4567</span>
+                <span className="text-gray-400">+94 11 2698137</span>
               </li>
               <li className="flex items-center">
                 <FaEnvelope className="mr-3 text-[#A52A2A]" />
-                <span className="text-gray-400">info@aurorauniversity.edu</span>
+                <span className="text-gray-400"><a href="">info@sliate.ac.lk</a></span>
               </li>
             </ul>
           </motion.div>
@@ -125,7 +125,7 @@ const FooterSection = () => {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="text-center text-gray-500 text-sm"
         >
-          <p>&copy; {currentYear} Aurora University. All rights reserved.</p>
+          <p>&copy; {currentYear} Advanced Technology Institute . All rights reserved.</p>
         </motion.div>
       </div>
     </footer>

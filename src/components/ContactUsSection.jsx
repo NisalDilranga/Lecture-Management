@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const ContactUsSection = () => {
   return (
-    <section className="bg-white py-16 px-4 md:px-20">
+    <section className="bg-white py-16 px-4 md:px-20" id="contact-us">
       <div className="container mx-auto px-4">
         {" "}
         <motion.h2

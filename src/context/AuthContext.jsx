@@ -14,6 +14,7 @@ import {
   findUserByEmail
 } from '../services/AuthServices';
 import { testFirebaseAuth } from '../config/firebase';
+import { toast } from 'react-toastify';
 
 // Create the auth context
 export const AuthContext = createContext();
@@ -47,14 +48,21 @@ export const AuthProvider = ({ children }) => {
     try {
       const user = await signIn(email, password);
       setCurrentUser(user);      
-      // Navigate based on user role
+      
       if (user.role === 'Admin') {
-        navigate('/Dashboard');  // Go to main dashboard for admins
+        toast.success('Login successful! ');
+       setTimeout(() => {
+          navigate('/Dashboard');
+       }, 1000); 
       } else if (user.role === 'User') {
-        navigate('/Dashboard/my-timetable');
+        toast.success('Login successful! ');
+        setTimeout(() => {
+          navigate('/Dashboard/my-timetable');
+        }, 1000);
       } else {
-        // Default fallback if role isn't set or is unknown
-        navigate('/hello');
+      
+        // navigate('/hello');
+        toast.warn('Login failed! Invalid role.');
       }
       
       return user;

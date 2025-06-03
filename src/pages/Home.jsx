@@ -26,12 +26,11 @@ const Home = () => {
     <div className="bg-white min-h-screen">
       <AuroraHero />
       <div className=" bg-white">
-        <Divider />
-        <WhyChooseUsSection /> <Divider />
-        <GraduationSection />
-        <Divider />
-        <ContactUsSection />
-        <Divider />        <AboutUsSection />
+        <WhyChooseUsSection /> 
+        {/* <GraduationSection /> */}
+        
+       <AboutUsSection />
+       <ContactUsSection />
         <Divider />
         <ImgSlider />
         <FooterSection/>
