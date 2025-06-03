@@ -6,6 +6,7 @@ import {
   addSubjectToDepartment,
   removeSubjectFromDepartment
 } from '../services/DepartmentServices';
+import { toast } from 'react-toastify';
 
 const DepartmentsManagement = () => {
   const [departments, setDepartments] = useState([]);
@@ -73,9 +74,6 @@ const DepartmentsManagement = () => {
 
   // Handler for deleting a department
   const handleDeleteDepartment = async (departmentId) => {
-    if (!window.confirm('Are you sure you want to delete this department?')) {
-      return;
-    }
 
     try {
       setLoading(true);
@@ -88,9 +86,11 @@ const DepartmentsManagement = () => {
       const updatedSubjects = { ...newSubjects };
       delete updatedSubjects[departmentId];
       setNewSubjects(updatedSubjects);
+      toast.success('Department deleted successfully');
     } catch (err) {
       console.error('Error deleting department:', err);
       setError('Failed to delete department. Please try again.');
+      toast.warn('Failed to delete department');
     } finally {
       setLoading(false);
     }

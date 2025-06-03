@@ -5,6 +5,10 @@ import { getAllDepartments } from '../../services/DepartmentServices';
 const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [phoneErrors, setPhoneErrors] = useState({
+    officialPhone: '',
+    mobilePhone: ''
+  });
   
   // Load all departments when component mounts
   useEffect(() => {
@@ -22,8 +26,7 @@ const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
     
     fetchDepartments();
   }, []);
-  
-  const handleChange = (e) => {
+    const handleChange = (e) => {
     const { name, value } = e.target;
     
     if (name.startsWith('preferredPlacements')) {
@@ -42,6 +45,11 @@ const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
       updateFormData({ preferredPlacements: updatedPlacements });
     } else {
       updateFormData({ [name]: value });
+      
+      // Validate phone numbers on change
+      if (name === 'officialPhone' || name === 'mobilePhone') {
+        validatePhone(value, name);
+      }
     }
   };
   
@@ -80,15 +88,46 @@ const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
     const department = departments.find(dept => dept.id === departmentId);
     return department?.subjects || [];
   };
-  
-  // Validate form whenever data changes
+    // Validate phone number
+  const validatePhone = (phone, fieldName) => {
+    // Sri Lankan phone number regex pattern
+    // Allows formats like: 0771234567, 077-123-4567, +94771234567, +94-77-123-4567
+    const phoneRegex = /^(?:(?:\+94)|0)[-\s]?(?:(?:7|11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91|92)(?:[-\s]?\d{7}|\d{7}))$/;
+    
+    if (!phone) {
+      if (fieldName === 'mobilePhone') {
+        setPhoneErrors(prev => ({ ...prev, [fieldName]: 'Mobile phone is required' }));
+        return false;
+      }
+      setPhoneErrors(prev => ({ ...prev, [fieldName]: '' }));
+      return true; // Official phone is optional
+    }
+    
+    // Clean up the phone number by removing spaces
+    const cleanedPhone = phone.replace(/\s/g, '');
+    
+    if (!phoneRegex.test(cleanedPhone)) {
+      setPhoneErrors(prev => ({ 
+        ...prev, 
+        [fieldName]: 'Please enter a valid Sri Lankan phone number' 
+      }));
+      return false;
+    }
+    
+    setPhoneErrors(prev => ({ ...prev, [fieldName]: '' }));
+    return true;
+  };
+    // Validate form whenever data changes
   useEffect(() => {
+    const isValidMobilePhone = validatePhone(formData.mobilePhone, 'mobilePhone');
+    const isValidOfficialPhone = validatePhone(formData.officialPhone, 'officialPhone');
+    
     const isValid = 
       formData.fullName.trim() !== '' &&
       formData.nameWithInitials.trim() !== '' &&
       formData.dateOfBirth.trim() !== '' &&
       formData.postalAddress.trim() !== '' &&
-      formData.mobilePhone.trim() !== '' &&
+      isValidMobilePhone &&
       formData.email.trim() !== '' &&
       formData.preferredPlacements.every(p => 
         p.place.trim() !== '' && 
@@ -138,21 +177,19 @@ const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Place {index + 1}
-                  </label>
-                  <input
+                  </label>                  <input
                     type="text"
                     name={`preferredPlacements.${index}.place`}
                     value={placement.place}
                     onChange={handleChange}
-                    placeholder="Enter place name"
+                    placeholder="Enter ATI/ATI section name"
                     className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Department
-                  </label>
-                  <select
+                  </label>                  <select
                     name={`preferredPlacements.${index}.departmentId`}
                     value={placement.departmentId || ''}
                     onChange={handleChange}
@@ -210,6 +247,7 @@ const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
+            placeholder="Dr./Mr./Mrs./Miss. Full Name"
             className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
             required
           />
@@ -218,12 +256,12 @@ const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Name with Initials
-          </label>
-          <input
+          </label>          <input
             type="text"
             name="nameWithInitials"
             value={formData.nameWithInitials}
             onChange={handleChange}
+            placeholder="e.g. A.B.C. Silva"
             className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
             required
           />
@@ -251,13 +289,13 @@ const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Postal Address
-            </label>
-            <textarea
+            </label>            <textarea
               name="postalAddress"
               value={formData.postalAddress}
               onChange={handleChange}
               rows="3"
-              className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
+              placeholder="Enter your full postal address"
+              className="mt-1 pl-2 pt-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000]"
               required
             ></textarea>
           </div>
@@ -266,39 +304,51 @@ const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Official Phone Number
-              </label>
-              <input
-                type="tel"
-                name="officialPhone"
-                value={formData.officialPhone}
-                onChange={handleChange}
-                className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
-              />
+              </label>              <div>
+                <input
+                  type="tel"
+                  name="officialPhone"
+                  value={formData.officialPhone}
+                  onChange={handleChange}
+                  placeholder="e.g. 0112345678 or +94112345678"
+                  className={`mt-1 pl-2 block w-full rounded-md border ${phoneErrors.officialPhone ? 'border-red-500' : 'border-gray-600'} shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10`}
+                />
+                {phoneErrors.officialPhone && (
+                  <p className="mt-1 text-sm text-red-600">{phoneErrors.officialPhone}</p>
+                )}
+              </div>
+            
             </div>
             
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Mobile Number
-              </label>
-              <input
-                type="tel"
-                name="mobilePhone"
-                value={formData.mobilePhone}
-                onChange={handleChange}
-                className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
-                required
-              />
+              </label>              <div>
+                <input
+                  type="tel"
+                  name="mobilePhone"
+                  value={formData.mobilePhone}
+                  onChange={handleChange}
+                  placeholder="e.g. 0771234567 or +94771234567"
+                  className={`mt-1 pl-2 block w-full rounded-md border ${phoneErrors.mobilePhone ? 'border-red-500' : 'border-gray-600'} shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10`}
+                  required
+                />
+                {phoneErrors.mobilePhone && (
+                  <p className="mt-1 text-sm text-red-600">{phoneErrors.mobilePhone}</p>
+                )}
+              </div>
+             
             </div>
             
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 E-mail
-              </label>
-              <input
+              </label>              <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                placeholder="your.email@example.com"
                 className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
                 required
               />

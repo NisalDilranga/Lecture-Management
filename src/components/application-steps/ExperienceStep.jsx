@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
 
 const ExperienceStep = ({ formData, updateFormData, setStepValid }) => {
+  // Add state to track the "no teaching experience" checkbox
+  const [noTeachingExperience, setNoTeachingExperience] = useState(false);
+
   const handleWorkExperienceChange = (type, field, value, index = null) => {
     if (type === 'present') {
       const updatedWorkExperience = {
@@ -36,7 +39,6 @@ const ExperienceStep = ({ formData, updateFormData, setStepValid }) => {
     };
     updateFormData({ teachingExperience: updatedTeachingExperience });
   };
-
   // Validate form whenever data changes
   useEffect(() => {
     // Validate present work experience and at least one teaching experience
@@ -47,8 +49,8 @@ const ExperienceStep = ({ formData, updateFormData, setStepValid }) => {
       formData.workExperience.present.years.trim() !== ''
     );
     
-    // Check if at least one teaching experience is completely filled 
-    const isTeachingExperienceValid = formData.teachingExperience.some(exp => 
+    // Check if user has marked "No Teaching Experience" or has valid teaching experience
+    const isTeachingExperienceValid = noTeachingExperience || formData.teachingExperience.some(exp => 
       exp.institute.trim() !== '' && 
       exp.program.trim() !== '' && 
       exp.subject.trim() !== '' && 
@@ -62,12 +64,11 @@ const ExperienceStep = ({ formData, updateFormData, setStepValid }) => {
     );
     
     const isValid = isPresentWorkValid && isTeachingExperienceValid && isPastWorkValid;
-    
-    // Update parent component with validation status
+      // Update parent component with validation status
     if (setStepValid) {
       setStepValid(isValid);
     }
-  }, [formData, setStepValid]);
+  }, [formData, setStepValid, noTeachingExperience]);
   
   return (
     <div className="space-y-6">
@@ -111,7 +112,7 @@ const ExperienceStep = ({ formData, updateFormData, setStepValid }) => {
             <div>
               <label className="block text-xs text-gray-500">Years</label>
               <input
-                type="text"
+                type="number"
                 value={formData.workExperience.present.years}
                 onChange={(e) => handleWorkExperienceChange('present', 'years', e.target.value)}
                 className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
@@ -155,7 +156,7 @@ const ExperienceStep = ({ formData, updateFormData, setStepValid }) => {
               <div>
                 <label className="block text-xs text-gray-500">Years</label>
                 <input
-                  type="text"
+                  type="number"
                   value={experience.years}
                   onChange={(e) => handleWorkExperienceChange('past', 'years', e.target.value, index)}
                   className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
@@ -164,11 +165,25 @@ const ExperienceStep = ({ formData, updateFormData, setStepValid }) => {
             </div>
           ))}
         </div>
-      </div>
-        {/* Teaching Experience */}
+      </div>      {/* Teaching Experience */}
       <div className="border p-4 rounded-md bg-gray-50">
         <div className="flex justify-between items-center mb-3">
-          <h4 className="font-medium">Teaching Experience</h4>
+          <div className="flex items-center">
+            <h4 className="font-medium">Teaching Experience</h4>
+            <div className="ml-4 flex items-center">
+              <input
+                id="no-teaching-experience"
+                name="no-teaching-experience"
+                type="checkbox"
+                checked={noTeachingExperience}
+                onChange={(e) => setNoTeachingExperience(e.target.checked)}
+                className="h-4 w-4 text-[#8B0000] focus:ring-[#8B0000] border-gray-300 rounded"
+              />
+              <label htmlFor="no-teaching-experience" className="ml-2 block text-sm text-gray-700">
+                I don't have teaching experience
+              </label>
+            </div>
+          </div>
           <button 
             type="button"
             onClick={() => {
@@ -176,14 +191,14 @@ const ExperienceStep = ({ formData, updateFormData, setStepValid }) => {
               updateFormData({ teachingExperience: updatedExperience });
             }}
             className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-[#8B0000] hover:bg-[#a52a2a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8B0000]"
+            disabled={noTeachingExperience}
           >
             <FiPlus className="mr-1" /> Add Experience
           </button>
         </div>
-        
-        <div className="space-y-4">
+          <div className="space-y-4" style={{ opacity: noTeachingExperience ? '0.5' : '1' }}>
           {formData.teachingExperience.map((experience, index) => (
-            <div key={index} className="relative  rounded-md bg-white p-3">
+            <div key={index} className="relative rounded-md bg-white p-3">
               <div className="absolute top-3 right-3">
                 {formData.teachingExperience.length > 1 && (
                   <button
@@ -194,6 +209,7 @@ const ExperienceStep = ({ formData, updateFormData, setStepValid }) => {
                     }}
                     className="text-red-500 hover:text-red-700"
                     title="Remove this experience"
+                    disabled={noTeachingExperience}
                   >
                     <FiTrash2 />
                   </button>
@@ -201,39 +217,39 @@ const ExperienceStep = ({ formData, updateFormData, setStepValid }) => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Institute</label>
-                  <input
+                  <label className="block text-sm font-medium text-gray-700">Institute</label>                  <input
                     type="text"
                     value={experience.institute}
                     onChange={(e) => handleTeachingExperienceChange(index, 'institute', e.target.value)}
                     className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
+                    disabled={noTeachingExperience}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Name of Program</label>
-                  <input
+                  <label className="block text-sm font-medium text-gray-700">Name of Program</label>                  <input
                     type="text"
                     value={experience.program}
                     onChange={(e) => handleTeachingExperienceChange(index, 'program', e.target.value)}
                     className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
+                    disabled={noTeachingExperience}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Subject</label>
-                  <input
+                  <label className="block text-sm font-medium text-gray-700">Subject</label>                  <input
                     type="text"
                     value={experience.subject}
                     onChange={(e) => handleTeachingExperienceChange(index, 'subject', e.target.value)}
                     className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
+                    disabled={noTeachingExperience}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Number of Years</label>
-                  <input
-                    type="text"
+                  <label className="block text-sm font-medium text-gray-700">Number of Years</label>                  <input
+                    type="number"
                     value={experience.years}
                     onChange={(e) => handleTeachingExperienceChange(index, 'years', e.target.value)}
                     className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
+                    disabled={noTeachingExperience}
                   />
                 </div>
               </div>

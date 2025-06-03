@@ -11,14 +11,9 @@ import {
 } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
 
-/**
- * Submit a new application to Firestore
- * @param {Object} applicationData - The application form data
- * @returns {Promise<Object>} - The application data with ID
- */
 export const submitApplication = async (applicationData) => {
   try {
-    // Prepare application data with metadata
+  
     let appData = {
       ...applicationData,
       status: 'pending', // Initial status: pending, approved, rejected
