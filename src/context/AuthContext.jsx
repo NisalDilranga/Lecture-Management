@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
       if (user.role === 'Admin') {
         navigate('/Dashboard/add-users');
       } else if (user.role === 'User') {
-        navigate('/Dashboard/applications');
+        navigate('/Dashboard/my-timetable');
       } else {
         // Default fallback if role isn't set or is unknown
         navigate('/hello');
