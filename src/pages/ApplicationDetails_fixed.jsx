@@ -26,9 +26,9 @@ const ApplicationDetails = () => {
   const sendInterviewEmail = (applicantName, applicantEmail, interviewDetails, date, time, place) => {
     try {
       // EmailJS configuration - replace with your actual EmailJS credentials
-      const serviceId = 'service_z2ibt8t';
-      const templateId = 'template_3z7j8s9';
-      const userId = 'RBbIDF9W6HXh8XpqB';
+      const serviceId = 'service_7adrs8a';
+      const templateId = 'template_mz8kw1t';
+      const userId = '3oc7EHE9_86XJPWcr';
 
       // Format the interview details message with date, time and place
       const formattedMessage = `
@@ -70,7 +70,7 @@ ${interviewDetails ? `\nAdditional Information:\n${interviewDetails}` : ''}
       // EmailJS configuration - replace with your actual EmailJS credentials
       const serviceId = 'service_z2ibt8t';
       const templateId = 'template_3z7j8s9';
-      const userId = 'RBbIDF9W6HXh8XpqB';
+      const userId = '3oc7EHE9_86XJPWcr';
 
       // Format the approval details message with date, time and place
       const formattedMessage = `
@@ -319,8 +319,8 @@ Please bring all your original certificates and documents for verification.
   
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-full p-8">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="flex items-center justify-center h-full p-8">
+        <div className="w-16 h-16 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -328,11 +328,11 @@ Please bring all your original certificates and documents for verification.
   if (error) {
     return (
       <div className="p-6">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <div className="px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded">
           <p>{error}</p>
           <button 
             onClick={() => navigate('/Dashboard/applications')} 
-            className="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="px-4 py-2 mt-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           >
             Back to Applications
           </button>
@@ -343,11 +343,11 @@ Please bring all your original certificates and documents for verification.
   if (!application) {
     return (
       <div className="p-6">
-        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+        <div className="px-4 py-3 text-yellow-700 bg-yellow-100 border border-yellow-400 rounded">
           <p>Application not found</p>
           <button 
             onClick={() => navigate('/Dashboard/applications')} 
-            className="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="px-4 py-2 mt-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           >
             Back to Applications
           </button>
@@ -356,15 +356,15 @@ Please bring all your original certificates and documents for verification.
     );
   }
   return (
-    <div className="p-6 max-w-full">      <div className="flex justify-between items-center mb-6">
+    <div className="max-w-full p-6">      <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-semibold">Application Details</h1>
         
         <div className="flex space-x-3">
           <button 
             onClick={() => navigate('/Dashboard/applications')} 
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded flex items-center"
+            className="flex items-center px-4 py-2 font-bold text-white bg-gray-500 rounded hover:bg-gray-700"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
             </svg>
             Back
@@ -372,9 +372,9 @@ Please bring all your original certificates and documents for verification.
           
           <button 
             onClick={() => setShowStatusModal(true)} 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
+            className="flex items-center px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2h.01a1 1 0 100-2H9z" clipRule="evenodd" />
             </svg>
             Update Status
@@ -397,14 +397,14 @@ Please bring all your original certificates and documents for verification.
       </div>
         {/* Interview Details Banner - only shown when status is "interview" and details exist */}
       {application.status === 'interview' && application.interviewDetails && (
-        <div className="mb-6 bg-purple-50 border-l-4 border-purple-500 p-4 rounded-md">
-          <h3 className="font-medium text-purple-800 mb-2 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <div className="p-4 mb-6 border-l-4 border-purple-500 rounded-md bg-purple-50">
+          <h3 className="flex items-center mb-2 font-medium text-purple-800">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
             </svg>
             Interview Details
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div>
               <p className="text-sm font-medium text-gray-500">Date</p>
               <p className="text-sm text-gray-900">{application.interviewDetails.date || 'To be confirmed'}</p>
@@ -419,22 +419,22 @@ Please bring all your original certificates and documents for verification.
             </div>
           </div>
           {application.interviewDetails.scheduledAt && (
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="mt-2 text-xs text-gray-500">
               Interview scheduled on: {formatDate(application.interviewDetails.scheduledAt)}
             </p>
           )}
         </div>
       )}      {/* Approved Details Banner - only shown when status is "approved" and details exist */}
       {application.status === 'approved' && application.approvedDetails && (
-        <div className="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-md">
-          <h3 className="font-medium text-green-800 mb-2 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <div className="p-4 mb-6 border-l-4 border-green-500 rounded-md bg-green-50">
+          <h3 className="flex items-center mb-2 font-medium text-green-800">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
             Application Approved
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div>
               <p className="text-sm font-medium text-gray-500">Reporting Date</p>
               <p className="text-sm text-gray-900">{application.approvedDetails.date || 'To be confirmed'}</p>
@@ -449,7 +449,7 @@ Please bring all your original certificates and documents for verification.
             </div>
           </div>
           
-          <p className="text-sm text-green-700 mt-2 font-medium">
+          <p className="mt-2 text-sm font-medium text-green-700">
             Please bring all your original certificates and documents for verification.
           </p>
         </div>
@@ -457,9 +457,9 @@ Please bring all your original certificates and documents for verification.
       
       {/* Marks Details Banner - only shown when status is "assign marks" and details exist */}
       {application.status === 'assign marks' && application.marksDetails && (
-        <div className="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-md">
-          <h3 className="font-medium text-green-800 mb-2 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <div className="p-4 mb-6 border-l-4 border-green-500 rounded-md bg-green-50">
+          <h3 className="flex items-center mb-2 font-medium text-green-800">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
               <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
               <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
             </svg>
@@ -467,26 +467,26 @@ Please bring all your original certificates and documents for verification.
           </h3>
           
           <div className="flex items-center">
-            <div className="bg-white rounded-full py-2 px-6 border border-green-300">
+            <div className="px-6 py-2 bg-white border border-green-300 rounded-full">
               <span className="text-2xl font-bold text-green-800">{application.marksDetails.mark}</span>
               <span className="text-sm text-gray-500">/100</span>
             </div>
           </div>
           
           {application.marksDetails.assignedAt && (
-            <p className="text-xs text-gray-500 mt-3">
+            <p className="mt-3 text-xs text-gray-500">
               Mark assigned on: {formatDate(application.marksDetails.assignedAt)}
             </p>
           )}
         </div>
       )}
       
-      <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6">
-        <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+      <div className="mb-6 overflow-hidden bg-white rounded-lg shadow-md">
+        <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-700">Personal Information</h2>
         </div>
         
-        <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2">
           <div>
             <h3 className="text-sm font-medium text-gray-500">Full Name</h3>
             <p className="mt-1 text-sm text-gray-900">{application.fullName || 'N/A'}</p>
@@ -525,8 +525,8 @@ Please bring all your original certificates and documents for verification.
       </div>
       
       {/* Preferred Placements */}
-      <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6">
-        <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+      <div className="mb-6 overflow-hidden bg-white rounded-lg shadow-md">
+        <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-700">Preferred Placements</h2>
         </div>
         
@@ -534,17 +534,17 @@ Please bring all your original certificates and documents for verification.
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">              <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Place</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subjects</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Place</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Department</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Subjects</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">                {application.preferredPlacements && application.preferredPlacements.length > 0 ? (
                   application.preferredPlacements.filter(placement => placement && (placement.place || placement.subjects)).map((placement, index) => (
                     <tr key={index}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{placement.place || 'N/A'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{getDepartmentName(placement.departmentId) || 'N/A'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{placement.place || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{getDepartmentName(placement.departmentId) || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
                         {Array.isArray(placement.subjects) 
                           ? placement.subjects.join(', ') 
                           : (placement.subjects || 'N/A')}
@@ -553,7 +553,7 @@ Please bring all your original certificates and documents for verification.
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="3" className="px-6 py-4 text-center text-sm text-gray-500">No preferred placements provided</td>
+                    <td colSpan="3" className="px-6 py-4 text-sm text-center text-gray-500">No preferred placements provided</td>
                   </tr>
                 )}
               </tbody>
@@ -563,8 +563,8 @@ Please bring all your original certificates and documents for verification.
       </div>
       
       {/* Academic Qualifications */}
-      <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6">
-        <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+      <div className="mb-6 overflow-hidden bg-white rounded-lg shadow-md">
+        <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-700">Academic Qualifications</h2>
         </div>
         
@@ -573,22 +573,22 @@ Please bring all your original certificates and documents for verification.
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Degree</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">University</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Degree</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">University</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Date</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">                {application.academicQualifications && application.academicQualifications.length > 0 ? (
                   application.academicQualifications.filter(qual => qual && (qual.degree || qual.university)).map((qualification, index) => (
                     <tr key={index}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{qualification.degree || 'N/A'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{qualification.university || 'N/A'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(qualification.date) || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{qualification.degree || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{qualification.university || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{formatDate(qualification.date) || 'N/A'}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="3" className="px-6 py-4 text-center text-sm text-gray-500">No academic qualifications provided</td>
+                    <td colSpan="3" className="px-6 py-4 text-sm text-center text-gray-500">No academic qualifications provided</td>
                   </tr>
                 )}
               </tbody>
@@ -598,8 +598,8 @@ Please bring all your original certificates and documents for verification.
       </div>
       
       {/* Professional Qualifications */}
-      <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6">
-        <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+      <div className="mb-6 overflow-hidden bg-white rounded-lg shadow-md">
+        <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-700">Professional Qualifications</h2>
         </div>
         
@@ -608,22 +608,22 @@ Please bring all your original certificates and documents for verification.
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Qualification</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Institute</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Qualification</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Institute</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Date</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">                {application.professionalQualifications && application.professionalQualifications.length > 0 ? (
                   application.professionalQualifications.filter(qual => qual && (qual.qualification || qual.institute)).map((qualification, index) => (
                     <tr key={index}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{qualification.qualification || 'N/A'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{qualification.institute || 'N/A'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(qualification.date) || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{qualification.qualification || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{qualification.institute || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{formatDate(qualification.date) || 'N/A'}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="3" className="px-6 py-4 text-center text-sm text-gray-500">No professional qualifications provided</td>
+                    <td colSpan="3" className="px-6 py-4 text-sm text-center text-gray-500">No professional qualifications provided</td>
                   </tr>
                 )}
               </tbody>
@@ -633,8 +633,8 @@ Please bring all your original certificates and documents for verification.
       </div>
       
       {/* Other Qualifications */}
-      <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6">
-        <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+      <div className="mb-6 overflow-hidden bg-white rounded-lg shadow-md">
+        <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-700">Other Qualifications</h2>
         </div>
         
@@ -644,8 +644,8 @@ Please bring all your original certificates and documents for verification.
       </div>
       
       {/* Teaching Experience */}
-      <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6">
-        <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+      <div className="mb-6 overflow-hidden bg-white rounded-lg shadow-md">
+        <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-700">Teaching Experience</h2>
         </div>
         
@@ -654,24 +654,24 @@ Please bring all your original certificates and documents for verification.
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Institute</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Years</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Institute</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Program</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Subject</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Years</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">              {application.teachingExperience && application.teachingExperience.length > 0 ? (
                   application.teachingExperience.filter(exp => exp && (exp.institute || exp.program || exp.subject)).map((experience, index) => (
                     <tr key={index}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{experience.institute || 'N/A'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{experience.program || 'N/A'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{experience.subject || 'N/A'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{experience.years || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{experience.institute || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{experience.program || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{experience.subject || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{experience.years || 'N/A'}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className="px-6 py-4 text-center text-sm text-gray-500">No teaching experience provided</td>
+                    <td colSpan="4" className="px-6 py-4 text-sm text-center text-gray-500">No teaching experience provided</td>
                   </tr>
                 )}
               </tbody>
@@ -681,65 +681,65 @@ Please bring all your original certificates and documents for verification.
       </div>
       
       {/* Work Experience */}
-      <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6">
-        <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+      <div className="mb-6 overflow-hidden bg-white rounded-lg shadow-md">
+        <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-700">Work Experience</h2>
         </div>
         
         <div className="p-6">
-          <h3 className="text-md font-medium text-gray-700 mb-3">Present Position</h3>
-          <div className="overflow-x-auto mb-6">
+          <h3 className="mb-3 font-medium text-gray-700 text-md">Present Position</h3>
+          <div className="mb-6 overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">From</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">To</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Years</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Position</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">From</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">To</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Years</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {application.workExperience?.present ? (
                   <tr>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{application.workExperience.present.position || 'N/A'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(application.workExperience.present.from) || 'N/A'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(application.workExperience.present.to) || 'N/A'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{application.workExperience.present.years || 'N/A'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{application.workExperience.present.position || 'N/A'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{formatDate(application.workExperience.present.from) || 'N/A'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{formatDate(application.workExperience.present.to) || 'N/A'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{application.workExperience.present.years || 'N/A'}</td>
                   </tr>
                 ) : (
                   <tr>
-                    <td colSpan="4" className="px-6 py-4 text-center text-sm text-gray-500">No present work experience provided</td>
+                    <td colSpan="4" className="px-6 py-4 text-sm text-center text-gray-500">No present work experience provided</td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
           
-          <h3 className="text-md font-medium text-gray-700 mb-3">Past Positions</h3>
+          <h3 className="mb-3 font-medium text-gray-700 text-md">Past Positions</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">From</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">To</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Years</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Position</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">From</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">To</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Years</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">                {application.workExperience?.past && application.workExperience.past.length > 0 ? (
                   application.workExperience.past.map((exp, index) => (
                     exp && exp.position && exp.position.trim() !== "" ? (
                       <tr key={index}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{exp.position || 'N/A'}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(exp.from) || 'N/A'}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(exp.to) || 'N/A'}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{exp.years || 'N/A'}</td>
+                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{exp.position || 'N/A'}</td>
+                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{formatDate(exp.from) || 'N/A'}</td>
+                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{formatDate(exp.to) || 'N/A'}</td>
+                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{exp.years || 'N/A'}</td>
                       </tr>
                     ) : null
                   )).filter(Boolean)
                 ) : (
                   <tr>
-                    <td colSpan="4" className="px-6 py-4 text-center text-sm text-gray-500">No past work experience provided</td>
+                    <td colSpan="4" className="px-6 py-4 text-sm text-center text-gray-500">No past work experience provided</td>
                   </tr>
                 )}
               </tbody>
@@ -749,19 +749,19 @@ Please bring all your original certificates and documents for verification.
       </div>
       
       {/* References */}
-      <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6">
-        <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+      <div className="mb-6 overflow-hidden bg-white rounded-lg shadow-md">
+        <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-700">References</h2>
         </div>
         
         <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">            {application.references && application.references.length > 0 ? (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">            {application.references && application.references.length > 0 ? (
               application.references.filter(ref => ref && (ref.name || ref.position || ref.email)).map((reference, index) => (
-                <div key={index} className="border rounded-lg p-4 bg-gray-50">
-                  <h3 className="font-medium text-gray-800 mb-2">{reference.name || 'N/A'}</h3>
-                  <p className="text-sm text-gray-600 mb-1">Position: {reference.position || 'N/A'}</p>
-                  <p className="text-sm text-gray-600 mb-1">Email: {reference.email || 'N/A'}</p>
-                  <p className="text-sm text-gray-600 mb-1">Phone: {reference.phone || 'N/A'}</p>
+                <div key={index} className="p-4 border rounded-lg bg-gray-50">
+                  <h3 className="mb-2 font-medium text-gray-800">{reference.name || 'N/A'}</h3>
+                  <p className="mb-1 text-sm text-gray-600">Position: {reference.position || 'N/A'}</p>
+                  <p className="mb-1 text-sm text-gray-600">Email: {reference.email || 'N/A'}</p>
+                  <p className="mb-1 text-sm text-gray-600">Phone: {reference.phone || 'N/A'}</p>
                   <p className="text-sm text-gray-600">Address: {reference.address || 'N/A'}</p>
                 </div>
               ))
@@ -774,8 +774,8 @@ Please bring all your original certificates and documents for verification.
       
       {/* Admin Feedback Section */}
       {application.feedback && (
-        <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6">
-          <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+        <div className="mb-6 overflow-hidden bg-white rounded-lg shadow-md">
+          <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
             <h2 className="text-lg font-semibold text-gray-700">Feedback</h2>
           </div>
           
@@ -786,12 +786,12 @@ Please bring all your original certificates and documents for verification.
       )}
         {/* Status Update Modal */}
       {showStatusModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-screen overflow-y-auto">
-            <h2 className="text-lg font-semibold mb-4">Update Application Status</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-md max-h-screen p-6 overflow-y-auto bg-white rounded-lg">
+            <h2 className="mb-4 text-lg font-semibold">Update Application Status</h2>
             
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
                 Status
               </label>
               <select 
@@ -808,11 +808,11 @@ Please bring all your original certificates and documents for verification.
               </select>
             </div>            {/* Interview Details Fields - only show when status is "interview" */}
             {newStatus === 'interview' && (
-              <div className="border border-blue-200 bg-blue-50 rounded p-4 mb-4">
-                <h3 className="font-medium text-blue-800 mb-2">Interview Details</h3>
+              <div className="p-4 mb-4 border border-blue-200 rounded bg-blue-50">
+                <h3 className="mb-2 font-medium text-blue-800">Interview Details</h3>
                 
                 <div className="mb-3">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Interview Date
                   </label>
                   <input 
@@ -824,7 +824,7 @@ Please bring all your original certificates and documents for verification.
                 </div>
                 
                 <div className="mb-3">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Interview Time
                   </label>
                   <input 
@@ -836,7 +836,7 @@ Please bring all your original certificates and documents for verification.
                 </div>
                 
                 <div className="mb-1">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Interview Location
                   </label>
                   <input 
@@ -852,11 +852,11 @@ Please bring all your original certificates and documents for verification.
             
             {/* Approved Details Fields - only show when status is "approved" */}
             {newStatus === 'approved' && (
-              <div className="border border-green-200 bg-green-50 rounded p-4 mb-4">
-                <h3 className="font-medium text-green-800 mb-2">Reporting Details</h3>
+              <div className="p-4 mb-4 border border-green-200 rounded bg-green-50">
+                <h3 className="mb-2 font-medium text-green-800">Reporting Details</h3>
                 
                 <div className="mb-3">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Reporting Date
                   </label>
                   <input 
@@ -868,7 +868,7 @@ Please bring all your original certificates and documents for verification.
                 </div>
                 
                 <div className="mb-3">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Reporting Time
                   </label>
                   <input 
@@ -880,7 +880,7 @@ Please bring all your original certificates and documents for verification.
                 </div>
                 
                 <div className="mb-1">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Reporting Location
                   </label>
                   <input 
@@ -895,11 +895,11 @@ Please bring all your original certificates and documents for verification.
             )}
               {/* Marks Details Fields - only show when status is "assign marks" */}
             {newStatus === 'assign marks' && (
-              <div className="border border-green-200 bg-green-50 rounded p-4 mb-4">
-                <h3 className="font-medium text-green-800 mb-2">Assign Mark</h3>
+              <div className="p-4 mb-4 border border-green-200 rounded bg-green-50">
+                <h3 className="mb-2 font-medium text-green-800">Assign Mark</h3>
                 
                 <div className="mb-3">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Mark (0-100)
                   </label>
                   <input 
@@ -916,7 +916,7 @@ Please bring all your original certificates and documents for verification.
               </div>
             )}
             
-            <div className="mb-4">              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="mb-4">              <label className="block mb-1 text-sm font-medium text-gray-700">
                 {newStatus === 'interview' 
                   ? 'Additional Information (Optional)' 
                   : newStatus === 'assign marks' 
@@ -942,12 +942,12 @@ Please bring all your original certificates and documents for verification.
             <div className="flex justify-end space-x-3">
               <button 
                 onClick={() => setShowStatusModal(false)}
-                className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-100"
+                className="px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-100"
               >
                 Cancel
               </button>              <button 
                 onClick={handleStatusUpdate}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
                 disabled={!newStatus || 
                   (newStatus === 'interview' && (!interviewDate || !interviewTime || !interviewPlace)) || 
                   (newStatus === 'approved' && (!approvedDate || !approvedTime || !approvedPlace)) || 
