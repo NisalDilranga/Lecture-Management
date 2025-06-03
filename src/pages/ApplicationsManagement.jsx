@@ -126,7 +126,7 @@ const ApplicationsManagement = () => {
         return 'bg-green-200 text-green-800';
       case 'rejected':
         return 'bg-red-200 text-red-800';
-      case 'assign marks':
+      case 'marks':
         return 'bg-blue-200 text-blue-800';
       case 'interview':
         return 'bg-purple-200 text-purple-800';
@@ -198,7 +198,9 @@ const ApplicationsManagement = () => {
                       </span>
                     </td>                     <td className="py-3 px-4">
                       {app.marksDetails ? 
-                        <span className="font-medium text-blue-600">{app.marksDetails.mark || '-'}</span> : 
+                        <span className="font-medium text-blue-600">{app.marksDetails.mark ? 
+        parseFloat(app.marksDetails.mark).toString() : 
+        '-'}</span> : 
                         '-'}
                     </td>
                     <td className="py-3 px-4">

@@ -46,11 +46,10 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const user = await signIn(email, password);
-      setCurrentUser(user);
-      
+      setCurrentUser(user);      
       // Navigate based on user role
       if (user.role === 'Admin') {
-        navigate('/Dashboard/add-users');
+        navigate('/Dashboard');  // Go to main dashboard for admins
       } else if (user.role === 'User') {
         navigate('/Dashboard/my-timetable');
       } else {

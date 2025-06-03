@@ -3,12 +3,11 @@ import { useAuth } from "../context/AuthContext";
 
 const SideNav = () => {
   const { currentUser, logout } = useAuth();
-  
-  // Define navigation items by role
+    // Define navigation items by role
   const adminNavItems = [
     {
-      path: "/Dashboard/add-users",
-      title: "Add Users",
+      path: "/Dashboard",
+      title: "Dashboard",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -17,6 +16,20 @@ const SideNav = () => {
           fill="currentColor"
         >
           <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        </svg>
+      )
+    },
+    {
+      path: "/Dashboard/add-users",
+      title: "Add Users",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 mr-3" 
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
         </svg>
       )
     },
@@ -102,10 +115,8 @@ const SideNav = () => {
           <div className="flex items-center space-x-2">
             <span className="text-[17px] font-bold">Lecture Management System</span>
           </div>
-        </div>
-        <nav className="px-4 py-6 flex-1 overflow-y-auto">
-          <div className="flex flex-col min-w-[100px] gap-4">
-            {navItems.map((item, index) => (
+        </div>        <nav className="px-4 py-6 flex-1 overflow-y-auto">
+          <div className="flex flex-col min-w-[100px] gap-4">            {navItems.map((item, index) => (
               <NavLink
                 key={index}
                 className={({ isActive }) =>
@@ -116,10 +127,10 @@ const SideNav = () => {
                   }`
                 }
                 to={item.path}
+                end={item.path === "/Dashboard"} // Only use exact matching for the Dashboard path
               >
                 {item.icon}
-                {item.title}
-              </NavLink>
+                {item.title}              </NavLink>
             ))}
           </div>
         </nav>

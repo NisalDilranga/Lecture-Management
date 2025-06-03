@@ -181,9 +181,9 @@ Please bring all your original certificates and documents for verification.
           place: approvedPlace
         };
       }
-      
-      // Prepare marks details if status is "assign marks"
-      if (newStatus === 'assign marks' && markValue) {
+
+      // Prepare marks details if status is "marks"
+      if (newStatus === 'marks' && markValue) {
         const mark = parseFloat(markValue);
         
         if (!isNaN(mark)) {
@@ -308,7 +308,7 @@ Please bring all your original certificates and documents for verification.
         return 'bg-green-100 text-green-800';
       case 'rejected':
         return 'bg-red-100 text-red-800';
-      case 'assign marks':
+      case 'marks':
         return 'bg-blue-100 text-blue-800';
       case 'interview':
         return 'bg-purple-100 text-purple-800';
@@ -803,7 +803,7 @@ Please bring all your original certificates and documents for verification.
                 <option value="pending">Pending</option>
                 <option value="approved">Approved</option>
                 <option value="rejected">Rejected</option>
-                <option value="assign marks">Assign Marks</option>
+                <option value="marks"> Marks</option>
                 <option value="interview">Interview Scheduled</option>
               </select>
             </div>            {/* Interview Details Fields - only show when status is "interview" */}

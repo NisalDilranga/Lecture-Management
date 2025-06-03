@@ -14,6 +14,7 @@ import ApplicationDetails from "./pages/ApplicationDetails_fixed";
 import DepartmentsManagement from "./pages/DepartmentsManagement";
 import TimetableManagement from "./pages/TimetableManagement";
 import UserTimetable from "./pages/UserTimetable";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
             index 
             element={
               <ProtectedRoute allowedRoles={['Admin']}>
-                <AddUsers/>
+                <Dashboard />
               </ProtectedRoute>
             } 
           />
