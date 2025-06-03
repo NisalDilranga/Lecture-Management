@@ -68,8 +68,8 @@ ${interviewDetails ? `\nAdditional Information:\n${interviewDetails}` : ''}
   const sendApprovalEmail = (applicantName, applicantEmail, approvalDetails, date, time, place) => {
     try {
       // EmailJS configuration - replace with your actual EmailJS credentials
-      const serviceId = 'service_z2ibt8t';
-      const templateId = 'template_3z7j8s9';
+       const serviceId = 'service_7adrs8a';
+      const templateId = 'template_mz8kw1t';
       const userId = '3oc7EHE9_86XJPWcr';
 
       // Format the approval details message with date, time and place
@@ -449,14 +449,10 @@ Please bring all your original certificates and documents for verification.
             </div>
           </div>
           
-          <p className="mt-2 text-sm font-medium text-green-700">
-            Please bring all your original certificates and documents for verification.
-          </p>
         </div>
       )}
-      
-      {/* Marks Details Banner - only shown when status is "assign marks" and details exist */}
-      {application.status === 'assign marks' && application.marksDetails && (
+        {/* Marks Details Banner - only shown when status is "marks" and details exist */}
+      {application.status === 'marks' && application.marksDetails && (
         <div className="p-4 mb-6 border-l-4 border-green-500 rounded-md bg-green-50">
           <h3 className="flex items-center mb-2 font-medium text-green-800">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -468,7 +464,7 @@ Please bring all your original certificates and documents for verification.
           
           <div className="flex items-center">
             <div className="px-6 py-2 bg-white border border-green-300 rounded-full">
-              <span className="text-2xl font-bold text-green-800">{application.marksDetails.mark}</span>
+              <span className="text-2xl font-bold text-green-800"> {parseFloat(application.marksDetails.mark).toString()}</span>
               <span className="text-sm text-gray-500">/100</span>
             </div>
           </div>
@@ -786,7 +782,7 @@ Please bring all your original certificates and documents for verification.
       )}
         {/* Status Update Modal */}
       {showStatusModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 bg-opacity-50">
           <div className="w-full max-w-md max-h-screen p-6 overflow-y-auto bg-white rounded-lg">
             <h2 className="mb-4 text-lg font-semibold">Update Application Status</h2>
             
@@ -817,6 +813,7 @@ Please bring all your original certificates and documents for verification.
                   </label>
                   <input 
                     type="date" 
+                    required
                     value={interviewDate} 
                     onChange={(e) => setInterviewDate(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -829,6 +826,7 @@ Please bring all your original certificates and documents for verification.
                   </label>
                   <input 
                     type="time" 
+                    required
                     value={interviewTime} 
                     onChange={(e) => setInterviewTime(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -841,6 +839,7 @@ Please bring all your original certificates and documents for verification.
                   </label>
                   <input 
                     type="text" 
+                    required
                     value={interviewPlace} 
                     onChange={(e) => setInterviewPlace(e.target.value)}
                     placeholder="Enter interview location"
@@ -861,6 +860,7 @@ Please bring all your original certificates and documents for verification.
                   </label>
                   <input 
                     type="date" 
+                    required
                     value={approvedDate} 
                     onChange={(e) => setApprovedDate(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -873,6 +873,7 @@ Please bring all your original certificates and documents for verification.
                   </label>
                   <input 
                     type="time" 
+                    required
                     value={approvedTime} 
                     onChange={(e) => setApprovedTime(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -885,6 +886,7 @@ Please bring all your original certificates and documents for verification.
                   </label>
                   <input 
                     type="text" 
+                    required
                     value={approvedPlace} 
                     onChange={(e) => setApprovedPlace(e.target.value)}
                     placeholder="Enter reporting location"
@@ -892,34 +894,42 @@ Please bring all your original certificates and documents for verification.
                   />
                 </div>
               </div>
-            )}
-              {/* Marks Details Fields - only show when status is "assign marks" */}
-            {newStatus === 'assign marks' && (
+            )}              {/* Marks Details Fields - only show when status is "marks" */}
+            {newStatus === 'marks' && (
               <div className="p-4 mb-4 border border-green-200 rounded bg-green-50">
                 <h3 className="mb-2 font-medium text-green-800">Assign Mark</h3>
                 
                 <div className="mb-3">
                   <label className="block mb-1 text-sm font-medium text-gray-700">
                     Mark (0-100)
-                  </label>
-                  <input 
+                  </label>                  <input 
                     type="number" 
                     min="0" 
                     max="100" 
                     step="0.1"
                     value={markValue} 
-                    onChange={(e) => setMarkValue(e.target.value)}
+                    onChange={(e) => {
+                      const value = parseFloat(e.target.value);
+                      if (isNaN(value)) {
+                        setMarkValue('');
+                      } else if (value < 0) {
+                        setMarkValue('0');
+                      } else if (value > 100) {
+                        setMarkValue('100');
+                      } else {
+                        setMarkValue(e.target.value);
+                      }
+                    }}
                     placeholder="Enter mark between 0-100"
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
               </div>
             )}
-            
-            <div className="mb-4">              <label className="block mb-1 text-sm font-medium text-gray-700">
+              <div className="mb-4">              <label className="block mb-1 text-sm font-medium text-gray-700">
                 {newStatus === 'interview' 
                   ? 'Additional Information (Optional)' 
-                  : newStatus === 'assign marks' 
+                  : newStatus === 'marks' 
                     ? 'Feedback about marks (Optional)'
                     : newStatus === 'approved'
                     ? 'Additional Instructions (Optional)'
@@ -931,7 +941,7 @@ Please bring all your original certificates and documents for verification.
                 rows="3"
                 placeholder={newStatus === 'interview' 
                   ? "Add any additional information about the interview..." 
-                  : newStatus === 'assign marks'
+                  : newStatus === 'marks'
                     ? "Add feedback or comments about the marks..."
                     : newStatus === 'approved'
                     ? "Add any additional instructions or information for the selected applicant..."
@@ -947,11 +957,10 @@ Please bring all your original certificates and documents for verification.
                 Cancel
               </button>              <button 
                 onClick={handleStatusUpdate}
-                className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-                disabled={!newStatus || 
+                className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"                disabled={!newStatus || 
                   (newStatus === 'interview' && (!interviewDate || !interviewTime || !interviewPlace)) || 
                   (newStatus === 'approved' && (!approvedDate || !approvedTime || !approvedPlace)) || 
-                  (newStatus === 'assign marks' && !markValue)}
+                  (newStatus === 'marks' && !markValue)}
               >
                 Update
               </button>
