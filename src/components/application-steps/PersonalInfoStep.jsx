@@ -84,7 +84,7 @@ const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
   };
 
   const removePlacement = (index) => {
-    if (formData.preferredPlacements.length <= 1) return; // Keep at least one placement
+    if (formData.preferredPlacements.length <= 1) return; 
 
     const updatedPlacements = formData.preferredPlacements.filter(
       (_, i) => i !== index
@@ -92,46 +92,39 @@ const PersonalInfoStep = ({ formData, updateFormData, setStepValid }) => {
     updateFormData({ preferredPlacements: updatedPlacements });
   };
 
-  // Get department subjects by department ID
   const getDepartmentSubjects = (departmentId) => {
     if (!departmentId) return [];
     const department = departments.find((dept) => dept.id === departmentId);
     return department?.subjects || [];
   };
-  // Validate phone number
-  const validatePhone = (phone, fieldName) => {
-    // Sri Lankan phone number regex pattern
-    // Allows formats like: 0771234567, 077-123-4567, +94771234567, +94-77-123-4567
-    const phoneRegex =
-      /^(?:(?:\+94)|0)[-\s]?(?:(?:7|11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91|92)(?:[-\s]?\d{7}|\d{7}))$/;
+const validatePhone = (phone, fieldName) => {
+    const phoneRegex = 
+        /^(?:\+94|0)(?:(?:11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|70|71|72|73|74|75|76|77|78|81|91)(?:\d{7}|\d-\d{3}-\d{4})|(?:7|11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|70|71|72|73|74|75|76|77|78|81|91)\d{7})$/;
 
     if (!phone) {
-      if (fieldName === "mobilePhone") {
+        if (fieldName === "mobilePhone") {
+            setPhoneErrors((prev) => ({
+                ...prev,
+                [fieldName]: "Mobile phone is required",
+            }));
+            return false;
+        }
+        setPhoneErrors((prev) => ({ ...prev, [fieldName]: "" }));
+        return true; 
+    }
+    const cleanedPhone = phone.replace(/[^\d+]/g, "");
+
+    if (!phoneRegex.test(phone) && !phoneRegex.test(cleanedPhone)) {
         setPhoneErrors((prev) => ({
-          ...prev,
-          [fieldName]: "Mobile phone is required",
+            ...prev,
+            [fieldName]: "Please enter a valid Sri Lankan phone number (e.g., 0771234567 or +94771234567)",
         }));
         return false;
-      }
-      setPhoneErrors((prev) => ({ ...prev, [fieldName]: "" }));
-      return true; // Official phone is optional
-    }
-
-    // Clean up the phone number by removing spaces
-    const cleanedPhone = phone.replace(/\s/g, "");
-
-    if (!phoneRegex.test(cleanedPhone)) {
-      setPhoneErrors((prev) => ({
-        ...prev,
-        [fieldName]: "Please enter a valid Sri Lankan phone number",
-      }));
-      return false;
     }
 
     setPhoneErrors((prev) => ({ ...prev, [fieldName]: "" }));
     return true;
-  };
-  // Validate form whenever data changes
+};
   useEffect(() => {
     const isValidMobilePhone = validatePhone(
       formData.mobilePhone,

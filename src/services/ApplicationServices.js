@@ -247,7 +247,7 @@ export const updateApplicationStatus = async (
       };
     }
 
-    if (status === "assign marks" && marksDetails) {
+    if (status === "marks" && marksDetails) {
       updateData.marksDetails = {
         ...marksDetails,
         assignedAt: serverTimestamp(),
