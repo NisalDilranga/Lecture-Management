@@ -7,6 +7,7 @@ import QualificationsStep from "./application-steps/QualificationsStep";
 import ExperienceStep from "./application-steps/ExperienceStep";
 import ReferencesStep from "./application-steps/ReferencesStep";
 import ReviewStep from "./application-steps/ReviewStep";
+import { toast } from "react-toastify";
 
 const ApplicationModal = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -97,12 +98,13 @@ const ApplicationModal = ({ isOpen, onClose }) => {
     submitApplication(formData)
       .then((response) => {
         console.log("Form submitted:", response);
-        alert("Your application has been submitted successfully!");
+      
+        toast.success("Application submitted successfully!");
         onClose();
       })
       .catch((error) => {
         console.error("Submission error:", error);
-        alert(`Error submitting application: ${error.message}`);
+        toast.error(`Error submitting application: ${error.message}`);
       })
       .finally(() => {
         setIsSubmitting(false);
