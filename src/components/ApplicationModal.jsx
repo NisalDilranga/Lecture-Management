@@ -104,7 +104,7 @@ const ApplicationModal = ({ isOpen, onClose }) => {
       })
       .catch((error) => {
         console.error("Submission error:", error);
-        toast.error(`Error submitting application: ${error.message}`);
+        toast.warn(`Error submitting application: ${error.message}`);
       })
       .finally(() => {
         setIsSubmitting(false);
