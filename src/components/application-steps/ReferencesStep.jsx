@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const ReferencesStep = ({ formData, updateFormData, setStepValid }) => {
   const [declarationChecked, setDeclarationChecked] = useState(false);
+  const [phoneErrors, setPhoneErrors] = useState({});
 
   useEffect(() => {
     if (formData.references && formData.references.length > 0) {
@@ -29,7 +30,54 @@ const ReferencesStep = ({ formData, updateFormData, setStepValid }) => {
       [field]: value,
     };
     updateFormData({ references: updatedReferences });
+
+    // Validate phone when changed
+    if (field === "phone") {
+      validatePhone(value, index);
+    }
   };
+
+  const validatePhone = (phone, index) => {
+    const phoneRegex =
+      /^(?:\+94|0)(?:(?:11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|70|71|72|73|74|75|76|77|78|81|91)(?:\d{7}|\d-\d{3}-\d{4})|(?:7|11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|70|71|72|73|74|75|76|77|78|81|91)\d{7})$/;
+
+    if (!phone) {
+      setPhoneErrors((prev) => ({
+        ...prev,
+        [index]: "Phone number is required",
+      }));
+      return false;
+    }
+
+    const cleanedPhone = phone.replace(/[^\d+]/g, "");
+
+    if (!phoneRegex.test(phone) && !phoneRegex.test(cleanedPhone)) {
+      setPhoneErrors((prev) => ({
+        ...prev,
+        [index]:
+          "Please enter a valid Sri Lankan phone number (e.g., 0771234567 or +94771234567)",
+      }));
+      return false;
+    }
+
+    setPhoneErrors((prev) => ({ ...prev, [index]: "" }));
+    return true;
+  };
+
+  // Validate all phone numbers
+  const validateAllPhones = () => {
+    let allValid = true;
+    formData.references.forEach((ref, index) => {
+      const isValid = validatePhone(ref.phone, index);
+      if (!isValid) allValid = false;
+    });
+    return allValid;
+  };
+
+  useEffect(() => {
+    // Validate all phones when the component mounts or references change
+    validateAllPhones();
+  }, []);
 
   useEffect(() => {
     const isValid =
@@ -40,12 +88,14 @@ const ReferencesStep = ({ formData, updateFormData, setStepValid }) => {
           ref.email?.trim() !== "" &&
           ref.phone?.trim() !== "" &&
           ref.address?.trim() !== ""
-      ) && declarationChecked;
+      ) &&
+      declarationChecked &&
+      !Object.values(phoneErrors).some((error) => error !== "");
 
     if (setStepValid) {
       setStepValid(isValid);
     }
-  }, [formData.references, declarationChecked, setStepValid]);
+  }, [formData.references, declarationChecked, phoneErrors, setStepValid]);
 
   return (
     <div className="space-y-6">
@@ -110,16 +160,19 @@ const ReferencesStep = ({ formData, updateFormData, setStepValid }) => {
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
                         Phone Number
-                      </label>
-                      <input
+                      </label>                      <input
                         type="tel"
                         value={reference.phone || ""}
                         onChange={(e) =>
                           handleReferenceChange(index, "phone", e.target.value)
                         }
-                        className="mt-1 pl-2 block w-full rounded-md border border-gray-600 shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10"
-                        placeholder="+123-456-7890"
-                      />
+                        className={`mt-1 pl-2 block w-full rounded-md border ${
+                          phoneErrors[index] ? "border-red-500" : "border-gray-600" 
+                        } shadow-sm focus:border-[#8B0000] focus:ring-[#8B0000] h-10`}
+                        placeholder="e.g., 0771234567 or +94771234567"
+                      />                      {phoneErrors[index] && (
+                        <p className="mt-1 text-sm text-red-600">{phoneErrors[index]}</p>
+                      )}
                     </div>
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-gray-700">
