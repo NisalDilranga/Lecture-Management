@@ -29,6 +29,18 @@ const ApplicationDetails = () => {
   const [approvedTime, setApprovedTime] = useState("");
   const [approvedPlace, setApprovedPlace] = useState("");
 
+
+  const getMinApprovalDate = () => {
+
+    if (application?.interviewDetails?.date) {
+      return application.interviewDetails.date;
+    }
+    else if (newStatus === "interview" && interviewDate) {
+      return interviewDate;
+    } 
+    return new Date().toISOString().split("T")[0];
+  };
+
   const sendInterviewEmail = (
     applicantName,
     applicantEmail,
@@ -1278,6 +1290,7 @@ Please login and change your password immediately.
                     required
                     value={approvedDate}
                     onChange={(e) => setApprovedDate(e.target.value)}
+                    min={getMinApprovalDate()}
                     className={`w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500 ${
                       newStatus === "approved" && !approvedDate
                         ? "border-red-300 bg-red-50"
