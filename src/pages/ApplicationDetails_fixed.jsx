@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { getAllDepartments } from "../services/DepartmentServices";
 import emailjs from "emailjs-com";
+import { signUp } from "../services/AuthServices"; // Import signUp function for user creation
 
 const ApplicationDetails = () => {
   const { id } = useParams();
@@ -77,7 +78,6 @@ ${interviewDetails ? `\nAdditional Information:\n${interviewDetails}` : ""}
       console.error("Error in sendInterviewEmail function:", error);
     }
   };
-
   // Function to send approval notification email
   const sendApprovalEmail = (
     applicantName,
@@ -107,6 +107,8 @@ Location: ${place || "To be confirmed"}
 ${approvalDetails ? `\nAdditional Information:\n${approvalDetails}` : ""}
 
 Please bring all your original certificates and documents for verification.
+
+Note: A user account is being created for you. You will receive login credentials in a separate email shortly.
       `.trim();
 
       // Email template parameters
@@ -183,8 +185,7 @@ Please bring all your original certificates and documents for verification.
 
     fetchApplicationDetails();
     fetchDepartments();
-  }, [id, currentUser]);
-  const handleStatusUpdate = async () => {
+  }, [id, currentUser]);  const handleStatusUpdate = async () => {
     try {
       let interviewDetails = null;
       let marksDetails = null;
@@ -271,6 +272,7 @@ Please bring all your original certificates and documents for verification.
         const applicantName = application.fullName || "Applicant";
         const applicantEmail = application.email || application.contactEmail;
 
+        // Send approval email
         if (applicantEmail) {
           sendApprovalEmail(
             applicantName,
@@ -280,9 +282,95 @@ Please bring all your original certificates and documents for verification.
             approvedTime,
             approvedPlace
           );
+          
+          // Create user account for approved applicant
+          try {
+            // Generate a temporary password (combination of name and birthdate if available, or default)
+            let tempPassword = "123456";            // Prepare user data
+            let subjects = [];
+            let department = null;
+            let departmentId = null;
+            
+            // Extract department and subjects from preferred placements if available
+            if (application.preferredPlacements && application.preferredPlacements.length > 0) {
+              // Use the first preferred placement that has valid data
+              const firstValidPlacement = application.preferredPlacements.find(
+                placement => placement && (placement.departmentId || placement.subjects)
+              );
+              
+              if (firstValidPlacement) {
+                // Extract department ID
+                if (firstValidPlacement.departmentId) {
+                  departmentId = firstValidPlacement.departmentId;
+                }
+                
+                // Extract subjects
+                if (firstValidPlacement.subjects) {
+                  if (Array.isArray(firstValidPlacement.subjects)) {
+                    subjects = firstValidPlacement.subjects;
+                  } else if (typeof firstValidPlacement.subjects === 'string') {
+                    subjects = [firstValidPlacement.subjects];
+                  }
+                }
+              }
+            }
+            
+            // Fall back to other fields if preferredPlacements doesn't have what we need
+            departmentId = departmentId || application.departmentId || application.department || null;
+            
+            const userData = {
+              name: applicantName,
+              email: applicantEmail,
+              role: "User", // Set role as user
+              department: departmentId,
+              departmentName: getDepartmentName(departmentId),
+              phone: application.mobilePhone || application.officialPhone || application.phone || null,
+              address: application.address || null,
+              hourlyRate: "",
+              subjects: subjects,
+              createdAt: new Date()
+            };
+            
+            console.log("Creating user with data:", JSON.stringify(userData, null, 2));
+            
+            // Create user in Firebase
+            await signUp(applicantEmail, tempPassword, userData);
+            
+            toast.success("User account created for approved applicant");
+            
+            // Send additional email with login credentials
+            const credentialsMessage = `
+Your application has been approved and an account has been created for you.
+
+Login details:
+Email: ${applicantEmail}
+Temporary Password: ${tempPassword}
+
+Please login and change your password immediately.
+            `.trim();
+            
+            // Email template parameters for credentials
+            const templateParams = {
+              to_name: applicantName,
+              to_email: applicantEmail,
+              message: credentialsMessage,
+            };
+            
+            // Use same emailjs service
+            const serviceId = "service_7adrs8a";
+            const templateId = "template_mz8kw1t";
+            const userId = "3oc7EHE9_86XJPWcr";
+            
+            // Send the credentials email
+            await emailjs.send(serviceId, templateId, templateParams, userId);
+            toast.success("Login credentials sent to applicant");
+          } catch (userCreationError) {
+            console.error("Error creating user account:", userCreationError);
+            toast.error("Failed to create user account for approved applicant");
+          }
         } else {
           toast.warning(
-            "Could not send email notification: Applicant email not available"
+            "Could not send email notification or create user: Applicant email not available"
           );
         }
       }
