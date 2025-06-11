@@ -77,7 +77,6 @@ const WorkLogs = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this work log?")) {
       try {
         setLoading(true);
         await deleteWorkLog(id);
@@ -89,7 +88,7 @@ const WorkLogs = () => {
       } finally {
         setLoading(false);
       }
-    }
+
   };
 
   const formatDate = (date) => {
@@ -161,7 +160,6 @@ const WorkLogs = () => {
         <h1 className="text-2xl font-bold text-gray-800">My Work Logs</h1>        <button
           onClick={() => {
             if (showForm && isEditing) {
-              // Cancel editing if editing mode is active
               handleCancelEdit();
             } else {
               setShowForm(!showForm);

@@ -66,7 +66,6 @@ export const getDashboardStats = async () => {
 export const getRecentWorkLogs = async (limit = 5) => {
   try {
     const workLogsRef = collection(db, "workLogs");
-    // Using query without ordering to avoid index requirement
     const snapshot = await getDocs(workLogsRef);
 
     const logs = snapshot.docs.map((doc) => ({
@@ -76,7 +75,6 @@ export const getRecentWorkLogs = async (limit = 5) => {
       createdAt: doc.data().createdAt ? doc.data().createdAt.toDate() : new Date(),
     }));
     
-    // Sort by createdAt in descending order and limit in JavaScript
     return logs
       .sort((a, b) => b.createdAt - a.createdAt)
       .slice(0, limit);
