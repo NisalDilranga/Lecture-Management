@@ -74,6 +74,21 @@ const SideNav = () => {
           <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
         </svg>
       )
+    },
+    {
+      path: "/Dashboard/work-logs-management",
+      title: "Work Logs",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 mr-3"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+          <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9 4a1 1 0 00-1-1h-6a1 1 0 00-1 1v1a1 1 0 001 1h6a1 1 0 001-1V9zm-3 5a1 1 0 00-1-1h-2a1 1 0 00-1 1v1a1 1 0 001 1h2a1 1 0 001-1v-1z" clipRule="evenodd" />
+        </svg>
+      )
     }
   ];
 
@@ -90,6 +105,21 @@ const SideNav = () => {
           fill="currentColor"
         >
           <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+        </svg>
+      )
+    },
+    {
+      path: "/Dashboard/work-logs",
+      title: "My Work Logs",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 mr-3"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+          <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
         </svg>
       )
     }

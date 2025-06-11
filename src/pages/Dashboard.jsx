@@ -7,8 +7,12 @@ import {
   FiCheckCircle,
   FiBarChart2,
   FiTrendingUp,
+  FiClock,
 } from "react-icons/fi";
-import { getDashboardStats } from "../services/DashboardServices";
+import {
+  getDashboardStats,
+  getRecentWorkLogs,
+} from "../services/DashboardServices";
 import {
   PieChart,
   Pie,
@@ -29,7 +33,9 @@ const Dashboard = () => {
     pendingCount: 0,
     interviewCount: 0,
     approvedCount: 0,
+    workLogsCount: 0,
   });
+  const [recentWorkLogs, setRecentWorkLogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,6 +44,10 @@ const Dashboard = () => {
         setLoading(true);
         const statsData = await getDashboardStats();
         setStats(statsData);
+
+        // Fetch recent work logs
+        const workLogs = await getRecentWorkLogs(5);
+        setRecentWorkLogs(workLogs);
       } catch (err) {
         console.error("Error fetching dashboard stats:", err);
       } finally {
@@ -134,7 +144,6 @@ const Dashboard = () => {
           </div>
         </motion.div>
 
-  
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -159,8 +168,32 @@ const Dashboard = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* Work Logs Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.4 }}
+          className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-emerald-500"
+        >
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="text-sm font-medium text-gray-500">Total Work Logs</p>
+              {loading ? (
+                <div className="h-8 w-20 bg-gray-200 animate-pulse rounded mt-1"></div>
+              ) : (
+                <h3 className="text-2xl font-bold text-gray-800 mt-1">
+                  {stats.workLogsCount}
+                </h3>
+              )}
+            </div>
+            <div className="p-3 bg-emerald-100 rounded-full">
+              <FiClock className="h-6 w-6 text-emerald-600" />
+            </div>
+          </div>
+        </motion.div>
       </div>{" "}
-    
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="flex justify-between items-center mb-6">
@@ -278,6 +311,77 @@ const Dashboard = () => {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Recent Work Logs Section */}
+      <div className="bg-white rounded-lg shadow-sm p-6 mt-6">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-lg font-semibold text-gray-800">Recent Work Logs</h3>
+          <a 
+            href="/Dashboard/work-logs-management" 
+            className="text-blue-600 hover:text-blue-800 text-sm flex items-center"
+          >
+            View All <FiTrendingUp className="ml-1" />
+          </a>
+        </div>
+
+        {loading ? (
+          <div className="animate-pulse">
+            {[...Array(5)].map((_, index) => (
+              <div key={index} className="border-b border-gray-100 py-3">
+                <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+                <div className="h-3 bg-gray-200 rounded w-3/5"></div>
+              </div>
+            ))}
+          </div>
+        ) : recentWorkLogs.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500">No work logs found</p>
+          </div>
+        ) : (
+          <div className="overflow-hidden">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Date
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Lecturer
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Subject
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Hours
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {recentWorkLogs.map((log) => (
+                  <tr key={log.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {new Date(log.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      })}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {log.userName}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {log.subject}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {log.hours} {log.hours === 1 ? "hour" : "hours"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

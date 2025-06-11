@@ -15,6 +15,8 @@ import DepartmentsManagement from "./pages/DepartmentsManagement";
 import TimetableManagement from "./pages/TimetableManagement";
 import UserTimetable from "./pages/UserTimetable";
 import Dashboard from "./pages/Dashboard";
+import WorkLogs from "./pages/WorkLogs";
+import WorkLogsManagement from "./pages/WorkLogsManagement";
 
 function App() {
   return (
@@ -87,6 +89,22 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          <Route 
+            path="work-logs" 
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'User']}>
+                <WorkLogs/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="work-logs-management" 
+            element={
+              <ProtectedRoute allowedRoles={['Admin']}>
+                <WorkLogsManagement/>
+              </ProtectedRoute>
+            } 
+          />
           
           {/* User-only routes */}
           <Route 
@@ -94,6 +112,23 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['User']}>
                 <UserTimetable/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="work-logs" 
+            element={
+              <ProtectedRoute allowedRoles={['User']}>
+                <WorkLogs/>
+              </ProtectedRoute>
+            } 
+          />
+          {/* Admin-only routes for Work Logs */}
+          <Route 
+            path="work-logs-management" 
+            element={
+              <ProtectedRoute allowedRoles={['Admin']}>
+                <WorkLogsManagement/>
               </ProtectedRoute>
             } 
           />
