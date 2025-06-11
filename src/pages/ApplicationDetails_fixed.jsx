@@ -1281,13 +1281,14 @@ Please login and change your password immediately.
                 <h3 className="mb-2 font-medium text-green-800">
                   Reporting Details
                 </h3>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label className="block mb-1 text-sm font-medium text-gray-700">
                     Reporting Date <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="date"
                     required
+                    readOnly
                     value={approvedDate}
                     onChange={(e) => setApprovedDate(e.target.value)}
                     min={getMinApprovalDate()}
@@ -1297,7 +1298,25 @@ Please login and change your password immediately.
                         : "border-gray-300"
                     }`}
                   />
-                </div>
+                </div> */}
+                <div className="mb-3">
+  <label className="block mb-1 text-sm font-medium text-gray-700">
+    Reporting Date <span className="text-red-500">*</span>
+  </label>
+  <input
+    type="date"
+    required
+    onKeyDown={(e) => e.preventDefault()}
+    value={approvedDate}
+    onChange={(e) => setApprovedDate(e.target.value)}
+    min={getMinApprovalDate()}
+    className={`w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500 ${
+      newStatus === "approved" && !approvedDate
+        ? "border-red-300 bg-red-50"
+        : "border-gray-300"
+    }`}
+  />
+</div>
 
                 <div className="mb-3">
                   <label className="block mb-1 text-sm font-medium text-gray-700">
