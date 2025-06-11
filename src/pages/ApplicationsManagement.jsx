@@ -195,10 +195,9 @@ const ApplicationsManagement = () => {
                     className="border-b border-gray-200 hover:bg-gray-100"
                   >
                     {" "}
-                    <td className="py-3 px-4">{app.fullName || "Unknown"}</td>
-                    <td className="py-3 px-4">
+                    <td className="py-3 px-4">{app.fullName || "Unknown"}</td>                    <td className="py-3 px-4">
                       {getDepartmentName(
-                        app.preferredPlacements[0]?.departmentId
+                        app.preferredPlacements?.[0]?.departmentId
                       ) || "Unknown"}
                     </td>
                     <td className="py-3 px-4">
